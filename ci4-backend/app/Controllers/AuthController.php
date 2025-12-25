@@ -48,6 +48,17 @@ class AuthController extends ResourceController
             return $this->failUnauthorized('Invalid login credentials');
         }
 
+        // --- SESSION BASED AUTH ---
+        $session = session();
+        $sessionData = [
+            'id'       => $user['id'],
+            'email'    => $user['email'],
+            'role'     => $user['role'],
+            'isLoggedIn' => true,
+        ];
+        $session->set($sessionData);
+
+        // --- JWT BASED AUTH (Optional/Keep for compatibility) ---
         $key = getenv('JWT_SECRET');
         $payload = [
             'iat'    => time(),
@@ -62,12 +73,26 @@ class AuthController extends ResourceController
         return $this->respond([
             'status'  => 200,
             'message' => 'Login successful',
-            'token'   => $token,
-            'user'    => [
-                'id'    => $user['id'],
-                'email' => $user['email'],
-                'role'  => $user['role']
-            ]
+            'token'   => $token, // JWT still returned if needed
+            'user'    => $sessionData
+        ]);
+    }
+
+    public function logout()
+    {
+        session()->destroy();
+        return $this->respond([
+            'status'  => 200,
+            'message' => 'Logout successful'
+        ]);
+    }
+
+    public function profile()
+    {
+        return $this->respond([
+            'status'  => 200,
+            'message' => 'User profile retrieved',
+            'user'    => session()->get()
         ]);
     }
 }
