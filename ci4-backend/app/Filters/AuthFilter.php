@@ -34,12 +34,19 @@ class AuthFilter implements FilterInterface
 
         try {
             $decoded = JWT::decode($token, new Key($key, 'HS256'));
-            // Optionally, you can attach user data to the request
+            
+            // Validate Issuer and Audience
+            $iss = base_url();
+            if (isset($decoded->iss) && $decoded->iss !== $iss) {
+                 throw new Exception('Invalid token issuer');
+            }
+
+            // Optionally attach user data to the request
             // $request->user = $decoded;
         } catch (Exception $e) {
             return service('response')->setJSON([
                 'status'  => 401,
-                'message' => 'Invalid or expired token'
+                'message' => 'Invalid or expired token: ' . $e->getMessage()
             ])->setStatusCode(401);
         }
     }

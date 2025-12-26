@@ -38,6 +38,7 @@ class Filters extends BaseFilters
         'session_auth'  => \App\Filters\SessionAuthFilter::class,
         'admin'         => \App\Filters\AdminFilter::class,
         'role'          => \App\Filters\RoleFilter::class,
+        'throttle'      => \App\Filters\ThrottleFilter::class,
     ];
 
     /**
@@ -77,13 +78,11 @@ class Filters extends BaseFilters
     public array $globals = [
         'before' => [
             'cors',
-            // 'honeypot',
-            // 'csrf',
-            // 'invalidchars',
+            'honeypot',
+            'invalidchars',
         ],
         'after' => [
-            // 'honeypot',
-            // 'secureheaders',
+            'secureheaders',
         ],
     ];
 
@@ -111,5 +110,7 @@ class Filters extends BaseFilters
      *
      * @var array<string, array<string, list<string>>>
      */
-    public array $filters = [];
+    public array $filters = [
+        'csrf' => ['before' => ['api/*', 'admin/*'], 'except' => ['api/login', 'api/signup']],
+    ];
 }

@@ -32,21 +32,34 @@ class AuthController extends ResourceController
 
     public function login()
     {
+        $rules = [
+            'email'    => 'required|valid_email',
+            'password' => 'required',
+        ];
+
+        if (!$this->validate($rules)) {
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
         $userModel = new UserModel();
         $json = $this->request->getJSON(true);
 
-        $email    = $json['email'] ?? null;
-        $password = $json['password'] ?? null;
-
-        if (!$email || !$password) {
-            return $this->fail('Email and password are required');
-        }
+        $email    = $json['email'];
+        $password = $json['password'];
 
         $user = $userModel->where('email', $email)->first();
 
         if (!$user || !password_verify($password, $user['password'])) {
+            log_message('warning', 'Failed login attempt for email: {email}', ['email' => $email]);
             return $this->failUnauthorized('Invalid login credentials');
         }
+
+        if ($user['is_active'] == 0) {
+            log_message('warning', 'Login attempt for deactivated account: {email}', ['email' => $email]);
+            return $this->failForbidden('Your account is deactivated. Please contact support.');
+        }
+
+        log_message('info', 'Successful login for user ID: {id}', ['id' => $user['id']]);
 
         // --- SESSION BASED AUTH ---
         $session = session();
@@ -62,6 +75,7 @@ class AuthController extends ResourceController
         $key = getenv('JWT_SECRET');
         $payload = [
             'iat'    => time(),
+            'iss'    => base_url(),
             'exp'    => time() + (60 * 60 * 24 * 7), // 7 days
             'userId' => $user['id'],
             'role'   => $user['role'],

@@ -30,9 +30,19 @@ class UserModel extends Model
     // Validation
     protected $validationRules      = [
         'email'    => 'required|valid_email|is_unique[users.email,id,{id}]',
-        'password' => 'required|min_length[6]',
+        'password' => 'required|min_length[8]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/]',
+        'role'     => 'permit_empty|in_list[user,admin]',
     ];
-    protected $validationMessages   = [];
+    protected $validationMessages   = [
+        'email' => [
+            'is_unique' => 'This email is already registered.',
+            'valid_email' => 'Please provide a valid email address.',
+        ],
+        'password' => [
+            'min_length' => 'Password must be at least 8 characters long.',
+            'regex_match' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+        ],
+    ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
 
