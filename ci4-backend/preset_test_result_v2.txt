@@ -1,0 +1,956 @@
+The remote server returned an error: (403) Forbidden.
+{
+    "title": "CodeIgniter\\Security\\Exceptions\\SecurityException",
+    "type": "CodeIgniter\\Security\\Exceptions\\SecurityException",
+    "code": 403,
+    "message": "The action you requested is not allowed.",
+    "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\Security\\Security.php",
+    "line": 262,
+    "trace": [
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\Security\\Security.php",
+            "line": 262,
+            "function": "forDisallowedAction",
+            "class": "CodeIgniter\\Security\\Exceptions\\SecurityException",
+            "type": "::",
+            "args": []
+        },
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\Filters\\CSRF.php",
+            "line": 52,
+            "function": "verify",
+            "class": "CodeIgniter\\Security\\Security",
+            "type": "->",
+            "args": [
+                {
+                    "protocolVersion": "1.1",
+                    "validProtocolVersions": [
+                        "1.0",
+                        "1.1",
+                        "2.0",
+                        "3.0"
+                    ],
+                    "body": "{\r\n    \"email\":  \"test_admin_preset@test.com\",\r\n    \"password\":  \"Password@123\",\r\n    \"role\":  \"admin\"\r\n}",
+                    "headers": {
+                        "Content-Type": {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        },
+                        "User-Agent": {
+                            "name": "User-Agent",
+                            "value": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.7462"
+                        },
+                        "Host": {
+                            "name": "Host",
+                            "value": "localhost:8086"
+                        },
+                        "Content-Length": {
+                            "name": "Content-Length",
+                            "value": "105"
+                        },
+                        "Expect": {
+                            "name": "Expect",
+                            "value": "100-continue"
+                        },
+                        "Connection": {
+                            "name": "Connection",
+                            "value": "Keep-Alive"
+                        }
+                    },
+                    "headerMap": {
+                        "content-type": "Content-Type",
+                        "user-agent": "User-Agent",
+                        "host": "Host",
+                        "content-length": "Content-Length",
+                        "expect": "Expect",
+                        "connection": "Connection"
+                    },
+                    "method": "POST",
+                    "uri": {
+                        "uriString": null,
+                        "baseURL": {
+                            "uriString": null,
+                            "baseURL": null,
+                            "segments": [],
+                            "scheme": "http",
+                            "user": null,
+                            "password": null,
+                            "host": "localhost",
+                            "port": 8081,
+                            "path": "/",
+                            "fragment": "",
+                            "query": [],
+                            "defaultPorts": {
+                                "http": 80,
+                                "https": 443,
+                                "ftp": 21,
+                                "sftp": 22
+                            },
+                            "showPassword": false,
+                            "silent": false,
+                            "rawQueryString": false
+                        },
+                        "segments": [
+                            "api",
+                            "signup"
+                        ],
+                        "scheme": "http",
+                        "user": null,
+                        "password": null,
+                        "host": "localhost",
+                        "port": 8081,
+                        "path": "/index.php/api/signup",
+                        "fragment": "",
+                        "query": [],
+                        "defaultPorts": {
+                            "http": 80,
+                            "https": 443,
+                            "ftp": 21,
+                            "sftp": 22
+                        },
+                        "showPassword": false,
+                        "silent": false,
+                        "rawQueryString": false,
+                        "basePathWithoutIndexPage": "/",
+                        "indexPage": "index.php",
+                        "baseSegments": [
+                            "index.php"
+                        ],
+                        "routePath": "api/signup"
+                    },
+                    "config": {
+                        "baseURL": "http://localhost:8081/",
+                        "allowedHostnames": [],
+                        "indexPage": "index.php",
+                        "uriProtocol": "REQUEST_URI",
+                        "permittedURIChars": "a-z 0-9~%.:_\\-",
+                        "defaultLocale": "en",
+                        "negotiateLocale": false,
+                        "supportedLocales": [
+                            "en"
+                        ],
+                        "appTimezone": "UTC",
+                        "charset": "UTF-8",
+                        "forceGlobalSecureRequests": false,
+                        "proxyIPs": [],
+                        "CSPEnabled": true
+                    },
+                    "ipAddress": "::1",
+                    "globals": {
+                        "server": {
+                            "DOCUMENT_ROOT": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\public",
+                            "REMOTE_ADDR": "::1",
+                            "REMOTE_PORT": "64826",
+                            "SERVER_SOFTWARE": "PHP 8.2.12 Development Server",
+                            "SERVER_PROTOCOL": "HTTP/1.1",
+                            "SERVER_NAME": "localhost",
+                            "SERVER_PORT": "8086",
+                            "REQUEST_URI": "/api/signup",
+                            "REQUEST_METHOD": "POST",
+                            "SCRIPT_NAME": "/index.php",
+                            "SCRIPT_FILENAME": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\public\\index.php",
+                            "PATH_INFO": "/api/signup",
+                            "PHP_SELF": "/index.php/api/signup",
+                            "HTTP_USER_AGENT": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.7462",
+                            "CONTENT_TYPE": "application/json",
+                            "HTTP_CONTENT_TYPE": "application/json",
+                            "HTTP_HOST": "localhost:8086",
+                            "CONTENT_LENGTH": "105",
+                            "HTTP_CONTENT_LENGTH": "105",
+                            "HTTP_EXPECT": "100-continue",
+                            "HTTP_CONNECTION": "Keep-Alive",
+                            "REQUEST_TIME_FLOAT": 1766757920.391653,
+                            "REQUEST_TIME": 1766757920,
+                            "CI_ENVIRONMENT": "development",
+                            "app.baseURL": "http://localhost:8081/",
+                            "app.encryptionKey": "base64:L7v3P7W9H8y2X1Z5J9K4N8M2Q6R0T3U1V4O7P0Q9A8=",
+                            "database.default.hostname": "127.0.0.1",
+                            "database.default.database": "pixelfable_db",
+                            "database.default.username": "root",
+                            "database.default.password": "",
+                            "database.default.DBDriver": "MySQLi",
+                            "database.default.DBPrefix": "",
+                            "database.default.port": "3306",
+                            "JWT_SECRET": "a_very_long_and_extremely_secure_secret_key_that_is_at_least_32_characters_long",
+                            "QUERY_STRING": ""
+                        },
+                        "post": [],
+                        "get": [],
+                        "cookie": []
+                    },
+                    "path": "api/signup",
+                    "files": null,
+                    "negotiator": null,
+                    "defaultLocale": "en",
+                    "locale": "en",
+                    "validLocales": [
+                        "en"
+                    ],
+                    "oldInput": [],
+                    "userAgent": {
+                        "agent": "Mozilla/5.0 (Windows NT; Windows NT 10.0; en-IN) WindowsPowerShell/5.1.26100.7462",
+                        "isBrowser": true,
+                        "isRobot": false,
+                        "isMobile": false,
+                        "config": {
+                            "platforms": {
+                                "windows nt 10.0": "Windows 10",
+                                "windows nt 6.3": "Windows 8.1",
+                                "windows nt 6.2": "Windows 8",
+                                "windows nt 6.1": "Windows 7",
+                                "windows nt 6.0": "Windows Vista",
+                                "windows nt 5.2": "Windows 2003",
+                                "windows nt 5.1": "Windows XP",
+                                "windows nt 5.0": "Windows 2000",
+                                "windows nt 4.0": "Windows NT 4.0",
+                                "winnt4.0": "Windows NT 4.0",
+                                "winnt 4.0": "Windows NT",
+                                "winnt": "Windows NT",
+                                "windows 98": "Windows 98",
+                                "win98": "Windows 98",
+                                "windows 95": "Windows 95",
+                                "win95": "Windows 95",
+                                "windows phone": "Windows Phone",
+                                "windows": "Unknown Windows OS",
+                                "android": "Android",
+                                "blackberry": "BlackBerry",
+                                "iphone": "iOS",
+                                "ipad": "iOS",
+                                "ipod": "iOS",
+                                "os x": "Mac OS X",
+                                "ppc mac": "Power PC Mac",
+                                "freebsd": "FreeBSD",
+                                "ppc": "Macintosh",
+                                "linux": "Linux",
+                                "debian": "Debian",
+                                "sunos": "Sun Solaris",
+                                "beos": "BeOS",
+                                "apachebench": "ApacheBench",
+                                "aix": "AIX",
+                                "irix": "Irix",
+                                "osf": "DEC OSF",
+                                "hp-ux": "HP-UX",
+                                "netbsd": "NetBSD",
+                                "bsdi": "BSDi",
+                                "openbsd": "OpenBSD",
+                                "gnu": "GNU/Linux",
+                                "unix": "Unknown Unix OS",
+                                "symbian": "Symbian OS"
+                            },
+                            "browsers": {
+                                "OPR": "Opera",
+                                "Flock": "Flock",
+                                "Edge": "Spartan",
+                                "Edg": "Edge",
+                                "Chrome": "Chrome",
+                                "Opera.*?Version": "Opera",
+                                "Opera": "Opera",
+                                "MSIE": "Internet Explorer",
+                                "Internet Explorer": "Internet Explorer",
+                                "Trident.* rv": "Internet Explorer",
+                                "Shiira": "Shiira",
+                                "Firefox": "Firefox",
+                                "Chimera": "Chimera",
+                                "Phoenix": "Phoenix",
+                                "Firebird": "Firebird",
+                                "Camino": "Camino",
+                                "Netscape": "Netscape",
+                                "OmniWeb": "OmniWeb",
+                                "Safari": "Safari",
+                                "Mozilla": "Mozilla",
+                                "Konqueror": "Konqueror",
+                                "icab": "iCab",
+                                "Lynx": "Lynx",
+                                "Links": "Links",
+                                "hotjava": "HotJava",
+                                "amaya": "Amaya",
+                                "IBrowse": "IBrowse",
+                                "Maxthon": "Maxthon",
+                                "Ubuntu": "Ubuntu Web Browser",
+                                "Vivaldi": "Vivaldi"
+                            },
+                            "mobiles": {
+                                "mobileexplorer": "Mobile Explorer",
+                                "palmsource": "Palm",
+                                "palmscape": "Palmscape",
+                                "motorola": "Motorola",
+                                "nokia": "Nokia",
+                                "palm": "Palm",
+                                "iphone": "Apple iPhone",
+                                "ipad": "iPad",
+                                "ipod": "Apple iPod Touch",
+                                "sony": "Sony Ericsson",
+                                "ericsson": "Sony Ericsson",
+                                "blackberry": "BlackBerry",
+                                "cocoon": "O2 Cocoon",
+                                "blazer": "Treo",
+                                "lg": "LG",
+                                "amoi": "Amoi",
+                                "xda": "XDA",
+                                "mda": "MDA",
+                                "vario": "Vario",
+                                "htc": "HTC",
+                                "samsung": "Samsung",
+                                "sharp": "Sharp",
+                                "sie-": "Siemens",
+                                "alcatel": "Alcatel",
+                                "benq": "BenQ",
+                                "ipaq": "HP iPaq",
+                                "mot-": "Motorola",
+                                "playstation portable": "PlayStation Portable",
+                                "playstation 3": "PlayStation 3",
+                                "playstation vita": "PlayStation Vita",
+                                "hiptop": "Danger Hiptop",
+                                "nec-": "NEC",
+                                "panasonic": "Panasonic",
+                                "philips": "Philips",
+                                "sagem": "Sagem",
+                                "sanyo": "Sanyo",
+                                "spv": "SPV",
+                                "zte": "ZTE",
+                                "sendo": "Sendo",
+                                "nintendo dsi": "Nintendo DSi",
+                                "nintendo ds": "Nintendo DS",
+                                "nintendo 3ds": "Nintendo 3DS",
+                                "wii": "Nintendo Wii",
+                                "open web": "Open Web",
+                                "openweb": "OpenWeb",
+                                "android": "Android",
+                                "symbian": "Symbian",
+                                "SymbianOS": "SymbianOS",
+                                "elaine": "Palm",
+                                "series60": "Symbian S60",
+                                "windows ce": "Windows CE",
+                                "obigo": "Obigo",
+                                "netfront": "Netfront Browser",
+                                "openwave": "Openwave Browser",
+                                "mobilexplorer": "Mobile Explorer",
+                                "operamini": "Opera Mini",
+                                "opera mini": "Opera Mini",
+                                "opera mobi": "Opera Mobile",
+                                "fennec": "Firefox Mobile",
+                                "digital paths": "Digital Paths",
+                                "avantgo": "AvantGo",
+                                "xiino": "Xiino",
+                                "novarra": "Novarra Transcoder",
+                                "vodafone": "Vodafone",
+                                "docomo": "NTT DoCoMo",
+                                "o2": "O2",
+                                "mobile": "Generic Mobile",
+                                "wireless": "Generic Mobile",
+                                "j2me": "Generic Mobile",
+                                "midp": "Generic Mobile",
+                                "cldc": "Generic Mobile",
+                                "up.link": "Generic Mobile",
+                                "up.browser": "Generic Mobile",
+                                "smartphone": "Generic Mobile",
+                                "cellphone": "Generic Mobile"
+                            },
+                            "robots": {
+                                "googlebot": "Googlebot",
+                                "msnbot": "MSNBot",
+                                "baiduspider": "Baiduspider",
+                                "bingbot": "Bing",
+                                "slurp": "Inktomi Slurp",
+                                "yahoo": "Yahoo",
+                                "ask jeeves": "Ask Jeeves",
+                                "fastcrawler": "FastCrawler",
+                                "infoseek": "InfoSeek Robot 1.0",
+                                "lycos": "Lycos",
+                                "yandex": "YandexBot",
+                                "mediapartners-google": "MediaPartners Google",
+                                "CRAZYWEBCRAWLER": "Crazy Webcrawler",
+                                "adsbot-google": "AdsBot Google",
+                                "feedfetcher-google": "Feedfetcher Google",
+                                "curious george": "Curious George",
+                                "ia_archiver": "Alexa Crawler",
+                                "MJ12bot": "Majestic-12",
+                                "Uptimebot": "Uptimebot"
+                            }
+                        },
+                        "platform": "Windows 10",
+                        "browser": "Mozilla",
+                        "version": "5.0",
+                        "mobile": "",
+                        "robot": "",
+                        "referrer": null
+                    }
+                }
+            ]
+        },
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\Filters\\Filters.php",
+            "line": 241,
+            "function": "before",
+            "class": "CodeIgniter\\Filters\\CSRF",
+            "type": "->",
+            "args": [
+                "[CodeIgniter\\HTTP\\IncomingRequest Object *RECURSION*]",
+                null
+            ]
+        },
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\Filters\\Filters.php",
+            "line": 221,
+            "function": "runBefore",
+            "class": "CodeIgniter\\Filters\\Filters",
+            "type": "->",
+            "args": [
+                [
+                    [
+                        "CodeIgniter\\Filters\\Cors",
+                        []
+                    ],
+                    [
+                        "CodeIgniter\\Filters\\Honeypot",
+                        []
+                    ],
+                    [
+                        "CodeIgniter\\Filters\\InvalidChars",
+                        []
+                    ],
+                    [
+                        "CodeIgniter\\Filters\\CSRF",
+                        []
+                    ],
+                    [
+                        "App\\Filters\\ThrottleFilter",
+                        [
+                            "5",
+                            "60"
+                        ]
+                    ]
+                ]
+            ]
+        },
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\CodeIgniter.php",
+            "line": 479,
+            "function": "run",
+            "class": "CodeIgniter\\Filters\\Filters",
+            "type": "->",
+            "args": [
+                "api/signup",
+                "before"
+            ]
+        },
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\CodeIgniter.php",
+            "line": 354,
+            "function": "handleRequest",
+            "class": "CodeIgniter\\CodeIgniter",
+            "type": "->",
+            "args": [
+                null,
+                {
+                    "handler": "file",
+                    "backupHandler": "dummy",
+                    "prefix": "",
+                    "ttl": 60,
+                    "reservedCharacters": "{}()/\\@:",
+                    "file": {
+                        "storePath": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\writable\\cache/",
+                        "mode": 416
+                    },
+                    "memcached": {
+                        "host": "127.0.0.1",
+                        "port": 11211,
+                        "weight": 1,
+                        "raw": false
+                    },
+                    "redis": {
+                        "host": "127.0.0.1",
+                        "password": null,
+                        "port": 6379,
+                        "timeout": 0,
+                        "database": 0
+                    },
+                    "validHandlers": {
+                        "dummy": "CodeIgniter\\Cache\\Handlers\\DummyHandler",
+                        "file": "CodeIgniter\\Cache\\Handlers\\FileHandler",
+                        "memcached": "CodeIgniter\\Cache\\Handlers\\MemcachedHandler",
+                        "predis": "CodeIgniter\\Cache\\Handlers\\PredisHandler",
+                        "redis": "CodeIgniter\\Cache\\Handlers\\RedisHandler",
+                        "wincache": "CodeIgniter\\Cache\\Handlers\\WincacheHandler"
+                    },
+                    "cacheQueryString": false
+                },
+                false
+            ]
+        },
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\Boot.php",
+            "line": 363,
+            "function": "run",
+            "class": "CodeIgniter\\CodeIgniter",
+            "type": "->",
+            "args": []
+        },
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\Boot.php",
+            "line": 68,
+            "function": "runCodeIgniter",
+            "class": "CodeIgniter\\Boot",
+            "type": "::",
+            "args": [
+                {
+                    "startTime": 1766757920.487988,
+                    "totalTime": null,
+                    "config": "[Config\\App Object *RECURSION*]",
+                    "benchmark": {
+                        "timers": {
+                            "total_execution": {
+                                "start": 1766757920.487988,
+                                "end": null
+                            },
+                            "bootstrap": {
+                                "start": 1766757920.509549,
+                                "end": 1766757920.661613
+                            },
+                            "required_before_filters": {
+                                "start": 1766757920.661616,
+                                "end": 1766757920.68538
+                            },
+                            "routing": {
+                                "start": 1766757920.685401,
+                                "end": 1766757920.689531
+                            },
+                            "before_filters": {
+                                "start": 1766757920.692558,
+                                "end": null
+                            }
+                        }
+                    },
+                    "request": "[CodeIgniter\\HTTP\\IncomingRequest Object *RECURSION*]",
+                    "response": {
+                        "protocolVersion": "1.1",
+                        "validProtocolVersions": [
+                            "1.0",
+                            "1.1",
+                            "2.0",
+                            "3.0"
+                        ],
+                        "body": null,
+                        "headers": {
+                            "Content-Type": {
+                                "name": "Content-Type",
+                                "value": "text/html; charset=UTF-8"
+                            },
+                            "Access-Control-Allow-Origin": {
+                                "name": "Access-Control-Allow-Origin",
+                                "value": "*"
+                            }
+                        },
+                        "headerMap": {
+                            "content-type": "Content-Type",
+                            "access-control-allow-origin": "Access-Control-Allow-Origin"
+                        },
+                        "reason": "Forbidden",
+                        "statusCode": 403,
+                        "pretend": false,
+                        "CSP": {
+                            "directives": {
+                                "base-uri": "baseURI",
+                                "child-src": "childSrc",
+                                "connect-src": "connectSrc",
+                                "default-src": "defaultSrc",
+                                "font-src": "fontSrc",
+                                "form-action": "formAction",
+                                "frame-ancestors": "frameAncestors",
+                                "frame-src": "frameSrc",
+                                "img-src": "imageSrc",
+                                "media-src": "mediaSrc",
+                                "object-src": "objectSrc",
+                                "plugin-types": "pluginTypes",
+                                "script-src": "scriptSrc",
+                                "style-src": "styleSrc",
+                                "manifest-src": "manifestSrc",
+                                "sandbox": "sandbox",
+                                "report-uri": "reportURI"
+                            },
+                            "baseURI": null,
+                            "childSrc": "self",
+                            "connectSrc": "self",
+                            "defaultSrc": null,
+                            "fontSrc": null,
+                            "formAction": "self",
+                            "frameAncestors": null,
+                            "frameSrc": null,
+                            "imageSrc": "self",
+                            "mediaSrc": null,
+                            "objectSrc": "self",
+                            "pluginTypes": null,
+                            "scriptSrc": [
+                                "self",
+                                "nonce-c16eeb9f1810cb14fe4d11e2"
+                            ],
+                            "styleSrc": [
+                                "self",
+                                "nonce-6f3e53f78de867dea521d3ad"
+                            ],
+                            "manifestSrc": null,
+                            "sandbox": null,
+                            "reportURI": null,
+                            "upgradeInsecureRequests": false,
+                            "reportOnly": false,
+                            "validSources": [
+                                "self",
+                                "none",
+                                "unsafe-inline",
+                                "unsafe-eval"
+                            ],
+                            "nonces": [],
+                            "styleNonce": "6f3e53f78de867dea521d3ad",
+                            "scriptNonce": "c16eeb9f1810cb14fe4d11e2",
+                            "styleNonceTag": "nonce="6f3e53f78de867dea521d3ad"",
+                            "scriptNonceTag": "nonce="c16eeb9f1810cb14fe4d11e2"",
+                            "autoNonce": true,
+                            "tempHeaders": [],
+                            "reportOnlyHeaders": [],
+                            "CSPEnabled": true
+                        },
+                        "cookieStore": {
+                            "cookies": []
+                        },
+                        "bodyFormat": "html"
+                    },
+                    "router": {
+                        "collection": {
+                            "defaultNamespace": "App\\Controllers\\",
+                            "defaultController": "Home",
+                            "defaultMethod": "index",
+                            "defaultPlaceholder": "any",
+                            "translateURIDashes": false,
+                            "autoRoute": false,
+                            "override404": null,
+                            "routeFiles": [
+                                "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\app\\Config\\Routes.php"
+                            ],
+                            "placeholders": {
+                                "any": ".*",
+                                "segment": "[^/]+",
+                                "alphanum": "[a-zA-Z0-9]+",
+                                "num": "[0-9]+",
+                                "alpha": "[a-zA-Z]+",
+                                "hash": "[^/]+"
+                            },
+                            "routes": {
+                                "*": [],
+                                "OPTIONS": [],
+                                "GET": {
+                                    "__hot-reload": {
+                                        "name": "__hot-reload",
+                                        "handler": "[Closure]",
+                                        "from": "__hot-reload"
+                                    },
+                                    "/": {
+                                        "name": "/",
+                                        "handler": "\\App\\Controllers\\Home::index",
+                                        "from": "/"
+                                    },
+                                    "api/logout": {
+                                        "name": "api/logout",
+                                        "handler": "\\App\\Controllers\\AuthController::logout",
+                                        "from": "api/logout"
+                                    },
+                                    "api/profile": {
+                                        "name": "api/profile",
+                                        "handler": "\\App\\Controllers\\AuthController::profile",
+                                        "from": "api/profile"
+                                    },
+                                    "api/admin/dashboard": {
+                                        "name": "api/admin/dashboard",
+                                        "handler": "\\App\\Controllers\\AdminController::index",
+                                        "from": "api/admin/dashboard"
+                                    },
+                                    "api/presets": {
+                                        "name": "api/presets",
+                                        "handler": "\\App\\Controllers\\PresetController::index",
+                                        "from": "api/presets"
+                                    },
+                                    "api/presets/([0-9]+)": {
+                                        "name": "api/presets/([0-9]+)",
+                                        "handler": "\\App\\Controllers\\PresetController::show/$1",
+                                        "from": "api/presets/(:num)"
+                                    }
+                                },
+                                "HEAD": [],
+                                "POST": {
+                                    "api/signup": {
+                                        "name": "api/signup",
+                                        "handler": "\\App\\Controllers\\AuthController::signup",
+                                        "from": "api/signup"
+                                    },
+                                    "api/login": {
+                                        "name": "api/login",
+                                        "handler": "\\App\\Controllers\\AuthController::login",
+                                        "from": "api/login"
+                                    },
+                                    "api/presets": {
+                                        "name": "api/presets",
+                                        "handler": "\\App\\Controllers\\PresetController::create",
+                                        "from": "api/presets"
+                                    }
+                                },
+                                "PATCH": [],
+                                "PUT": {
+                                    "api/presets/([0-9]+)": {
+                                        "name": "api/presets/([0-9]+)",
+                                        "handler": "\\App\\Controllers\\PresetController::update/$1",
+                                        "from": "api/presets/(:num)"
+                                    }
+                                },
+                                "DELETE": {
+                                    "api/presets/([0-9]+)": {
+                                        "name": "api/presets/([0-9]+)",
+                                        "handler": "\\App\\Controllers\\PresetController::delete/$1",
+                                        "from": "api/presets/(:num)"
+                                    }
+                                },
+                                "TRACE": [],
+                                "CONNECT": [],
+                                "CLI": []
+                            },
+                            "routesNames": {
+                                "*": [],
+                                "OPTIONS": [],
+                                "GET": {
+                                    "__hot-reload": "__hot-reload",
+                                    "/": "/",
+                                    "api/logout": "api/logout",
+                                    "api/profile": "api/profile",
+                                    "api/admin/dashboard": "api/admin/dashboard",
+                                    "api/presets": "api/presets",
+                                    "api/presets/([0-9]+)": "api/presets/([0-9]+)"
+                                },
+                                "HEAD": [],
+                                "POST": {
+                                    "api/signup": "api/signup",
+                                    "api/login": "api/login",
+                                    "api/presets": "api/presets"
+                                },
+                                "PATCH": [],
+                                "PUT": {
+                                    "api/presets/([0-9]+)": "api/presets/([0-9]+)"
+                                },
+                                "DELETE": {
+                                    "api/presets/([0-9]+)": "api/presets/([0-9]+)"
+                                },
+                                "TRACE": [],
+                                "CONNECT": [],
+                                "CLI": []
+                            },
+                            "routesOptions": {
+                                "GET": {
+                                    "__hot-reload": [],
+                                    "/": [],
+                                    "api/logout": {
+                                        "filter": [
+                                            "throttle:10,60"
+                                        ]
+                                    },
+                                    "api/profile": {
+                                        "filter": [
+                                            "session_auth"
+                                        ]
+                                    },
+                                    "api/admin/dashboard": {
+                                        "filter": [
+                                            "role:admin"
+                                        ]
+                                    },
+                                    "api/presets": [],
+                                    "api/presets/([0-9]+)": []
+                                },
+                                "POST": {
+                                    "api/signup": {
+                                        "filter": [
+                                            "throttle:5,60"
+                                        ]
+                                    },
+                                    "api/login": {
+                                        "filter": [
+                                            "throttle:5,60"
+                                        ]
+                                    },
+                                    "api/presets": {
+                                        "filter": [
+                                            "admin"
+                                        ]
+                                    }
+                                },
+                                "PUT": {
+                                    "api/presets/([0-9]+)": {
+                                        "filter": [
+                                            "admin"
+                                        ]
+                                    }
+                                },
+                                "DELETE": {
+                                    "api/presets/([0-9]+)": {
+                                        "filter": [
+                                            "admin"
+                                        ]
+                                    }
+                                }
+                            },
+                            "HTTPVerb": "POST",
+                            "defaultHTTPMethods": [
+                                "GET",
+                                "HEAD",
+                                "POST",
+                                "PATCH",
+                                "PUT",
+                                "DELETE",
+                                "OPTIONS",
+                                "TRACE",
+                                "CONNECT",
+                                "CLI"
+                            ],
+                            "group": null,
+                            "currentSubdomain": null,
+                            "currentOptions": null,
+                            "didDiscover": true,
+                            "fileLocator": {
+                                "autoloader": {
+                                    "prefixes": {
+                                        "CodeIgniter": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\"
+                                        ],
+                                        "Config": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\app\\Config\\"
+                                        ],
+                                        "App": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\app\\"
+                                        ],
+                                        "Tests\\Support": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\composer/../../tests/_support\\"
+                                        ],
+                                        "Psr\\Log": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\composer/../psr/log/src\\"
+                                        ],
+                                        "Psr\\Container": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\composer/../psr/container/src\\"
+                                        ],
+                                        "PhpParser": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\composer/../nikic/php-parser/lib/PhpParser\\"
+                                        ],
+                                        "Laminas\\Escaper": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\composer/../laminas/laminas-escaper/src\\"
+                                        ],
+                                        "Firebase\\JWT": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\composer/../firebase/php-jwt/src\\"
+                                        ],
+                                        "Faker": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\composer/../fakerphp/faker/src/Faker\\"
+                                        ],
+                                        "DeepCopy": [
+                                            "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\composer/../myclabs/deep-copy/src/DeepCopy\\"
+                                        ]
+                                    },
+                                    "classmap": {
+                                        "Psr\\Log\\AbstractLogger": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/PSR/Log/AbstractLogger.php",
+                                        "Psr\\Log\\InvalidArgumentException": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/PSR/Log/InvalidArgumentException.php",
+                                        "Psr\\Log\\LoggerAwareInterface": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/PSR/Log/LoggerAwareInterface.php",
+                                        "Psr\\Log\\LoggerAwareTrait": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/PSR/Log/LoggerAwareTrait.php",
+                                        "Psr\\Log\\LoggerInterface": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/PSR/Log/LoggerInterface.php",
+                                        "Psr\\Log\\LoggerTrait": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/PSR/Log/LoggerTrait.php",
+                                        "Psr\\Log\\LogLevel": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/PSR/Log/LogLevel.php",
+                                        "Psr\\Log\\NullLogger": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/PSR/Log/NullLogger.php",
+                                        "Laminas\\Escaper\\Exception\\ExceptionInterface": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/Escaper/Exception/ExceptionInterface.php",
+                                        "Laminas\\Escaper\\Exception\\InvalidArgumentException": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/Escaper/Exception/InvalidArgumentException.php",
+                                        "Laminas\\Escaper\\Exception\\RuntimeException": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/Escaper/Exception/RuntimeException.php",
+                                        "Laminas\\Escaper\\EscaperInterface": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/Escaper/EscaperInterface.php",
+                                        "Laminas\\Escaper\\Escaper": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\ThirdParty/Escaper/Escaper.php"
+                                    },
+                                    "files": [],
+                                    "helpers": [
+                                        "url"
+                                    ]
+                                },
+                                "invalidClassnames": []
+                            },
+                            "moduleConfig": {
+                                "enabled": true,
+                                "discoverInComposer": true,
+                                "aliases": [
+                                    "events",
+                                    "filters",
+                                    "registrars",
+                                    "routes",
+                                    "services"
+                                ],
+                                "composerPackages": []
+                            },
+                            "prioritize": false,
+                            "prioritizeDetected": false,
+                            "httpHost": "localhost:8086",
+                            "useSupportedLocalesOnly": false
+                        },
+                        "directory": null,
+                        "controller": "\\App\\Controllers\\AuthController",
+                        "method": "signup",
+                        "params": [],
+                        "indexPage": "index.php",
+                        "translateURIDashes": false,
+                        "matchedRoute": [
+                            "api/signup",
+                            "\\App\\Controllers\\AuthController::signup"
+                        ],
+                        "matchedRouteOptions": {
+                            "filter": [
+                                "throttle:5,60"
+                            ]
+                        },
+                        "detectedLocale": null,
+                        "filtersInfo": [
+                            "throttle:5,60"
+                        ],
+                        "autoRouter": null,
+                        "permittedURIChars": "a-z 0-9~%.:_\\-"
+                    },
+                    "controller": "\\App\\Controllers\\AuthController",
+                    "method": "signup",
+                    "output": null,
+                    "context": "web",
+                    "enableFilters": true,
+                    "returnResponse": false,
+                    "bufferLevel": 1,
+                    "pageCache": {
+                        "cacheQueryString": false,
+                        "ttl": 0,
+                        "cache": {
+                            "prefix": "",
+                            "path": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\writable\\cache/",
+                            "mode": 416
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\public\\index.php",
+            "line": 59,
+            "function": "bootWeb",
+            "class": "CodeIgniter\\Boot",
+            "type": "::",
+            "args": [
+                {
+                    "systemDirectory": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\app\\Config/../../vendor/codeigniter4/framework/system",
+                    "appDirectory": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\app\\Config/..",
+                    "writableDirectory": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\app\\Config/../../writable",
+                    "testsDirectory": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\app\\Config/../../tests",
+                    "viewDirectory": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\app\\Config/../Views"
+                }
+            ]
+        },
+        {
+            "file": "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\vendor\\codeigniter4\\framework\\system\\rewrite.php",
+            "line": 44,
+            "args": [
+                "C:\\xampp\\htdocs\\pixelFable-main\\ci4-backend\\public\\index.php"
+            ],
+            "function": "require_once"
+        }
+    ]
+}
