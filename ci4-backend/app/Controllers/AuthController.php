@@ -42,10 +42,15 @@ class AuthController extends ResourceController
         }
 
         $userModel = new UserModel();
+        
+        // Try to get JSON first, fallback to standard post/get data
         $json = $this->request->getJSON(true);
+        $email    = $json['email'] ?? $this->request->getVar('email');
+        $password = $json['password'] ?? $this->request->getVar('password');
 
-        $email    = $json['email'];
-        $password = $json['password'];
+        if (!$email || !$password) {
+            return $this->fail('Email and password are required');
+        }
 
         $user = $userModel->where('email', $email)->first();
 
