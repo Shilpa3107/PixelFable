@@ -41,6 +41,8 @@ $routes->group('api', function($routes) {
     $routes->group('payments', function($routes) {
         $routes->post('create-order', 'PaymentController::createOrder');
         $routes->post('verify-payment', 'PaymentController::verifyPayment');
+        $routes->post('webhook', 'PaymentController::webhook');
         $routes->get('success/(:any)', 'PaymentController::success/$1');
+        $routes->get('test-email', 'PaymentController::testEmail');
     });
 });
