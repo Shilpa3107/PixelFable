@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelFable | Transform Your Visual Stories</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/pixelfableWhite.png" alt="PixelFable Logo" class="logo-img">
+                <span class="logo-text"><span>PIXEL</span><span class="fable">FABLE</span></span>
+            </div>
+
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="presets.html" class="nav-link">Presets</a>
+                <a href="grading.html" class="nav-link">Grading Service</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn" aria-label="Cart">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="login.html" class="login-btn">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-bg-container" id="hero-bg-container">
+            <!-- Images injected via JS -->
+            <div class="hero-overlay-gradient-t"></div>
+            <div class="hero-overlay-gradient-r"></div>
+        </div>
+
+        <button class="slider-arrow prev" aria-label="Previous Slide">
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6" />
+            </svg>
+        </button>
+        <button class="slider-arrow next" aria-label="Next Slide">
+            <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6" />
+            </svg>
+        </button>
+
+        <div class="hero-content fade-in-up">
+            <div class="badge">
+                <div class="badge-dot"></div> Professional Color Grading Solutions
+            </div>
+
+            <h1 class="hero-title">
+                <span class="block">Transform</span>
+                <span class="block">Your</span>
+                <span class="block gradient-text">Visual Stories</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Discover premium LUTs and color grading presets crafted by industry professionals. Elevate your creative
+                vision with cinematic color solutions.
+            </p>
+
+            <div class="hero-cta-group">
+                <a href="presets.html" class="btn btn-primary">
+                    <span class="relative">Explore Presets</span>
+                    <div class="btn-gradient-overlay"></div>
+                </a>
+                <a href="grading.html" class="btn btn-education">
+                    Start Grading
+                </a>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Premium Presets</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Happy Creators</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-slider-dots" id="hero-slider-dots">
+            <!-- Dots injected via JS -->
+        </div>
+
+        <div class="scroll-indicator">
+            <span>SCROLL</span>
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <div class="section-container">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2 class="section-title">About Us</h2>
+                    <div class="text-block">
+                        <p>At <span class="text-white font-bold">Pixelfable</span>, we specialize in crafting
+                            exceptional color grading experiences that empower creators to thrive in their visual
+                            storytelling.</p>
+                        <p>With a team of passionate colorists and technical experts, we help filmmakers, photographers,
+                            and content creators build a strong visual presence.</p>
+                    </div>
+
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <div class="feature-icon bg-indigo">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Premium Quality</h4>
+                                <p>Industry-standard tools</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon bg-purple">
+                                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <div class="feature-text">
+                                <h4>Lightning Fast</h4>
+                                <p>Real-time performance</p>
+                            </div>
+                        </div>
+                        <!-- More features can be added via JS or static -->
+                    </div>
+
+                    <div class="cta-wrapper">
+                        <a href="presets.html" class="btn btn-secondary">
+                            Explore Our Collection
+                            <svg class="icon-right" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="about-visual">
+                    <div class="visual-card">
+                        <div class="glow-effect"></div>
+                        <div class="card-content">
+                            <img src="assets/pixelfableWhite.png" alt="PixelFable" class="about-logo">
+                        </div>
+                        <div class="stats-float top-right">
+                            <div class="stat-num">5+</div>
+                            <div class="stat-desc">Years Experience</div>
+                        </div>
+                        <div class="stats-float bottom-left">
+                            <div class="stat-num">100%</div>
+                            <div class="stat-desc">Satisfaction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Presets Section -->
+    <section class="presets-section">
+        <div class="section-container">
+            <div class="section-header text-center">
+                <h2 class="section-title text-large">Featured Presets</h2>
+                <p class="section-subtitle">Discover our most popular and professionally crafted color grading presets.
+                </p>
+            </div>
+
+            <div id="presets-grid" class="presets-grid">
+                <!-- Preset items will be rendered by JS -->
+            </div>
+
+            <div class="view-all-wrapper">
+                <a href="presets.html" class="btn btn-primary large">
+                    Explore All Presets
+                    <svg class="icon-right" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Grading Services Section -->
+    <section class="grading-section">
+        <div class="grading-container">
+            <div class="grading-image-wrapper">
+                <img src="assets/Wilderness 01.jpg" alt="Grading Example" class="grading-img">
+                <div class="img-glow"></div>
+            </div>
+            <div class="grading-content">
+                <h2 class="section-title">Get Your Images Graded</h2>
+                <h3 class="sub-title">Professional Color <span class="gradient-text">Grading Service</span></h3>
+                <p class="description">Upload your raw images and let our expert colorists transform them using
+                    professional tools.</p>
+
+                <div class="grading-features">
+                    <div class="g-feature">
+                        <span class="check-icon">✓</span> Professional grading
+                    </div>
+                    <div class="g-feature">
+                        <span class="check-icon">✓</span> Instagram exposure
+                    </div>
+                    <!-- and so on -->
+                </div>
+
+                <a href="grading.html" class="btn btn-primary mt-6">
+                    Upload Image for Grading
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container text-center">
+            <p>&copy; 2026 PixelFable. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

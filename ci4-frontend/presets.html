@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presets & LUTs | PixelFable</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/pixelfableWhite.png" alt="PixelFable Logo" class="logo-img">
+                <span class="logo-text"><span>PIXEL</span><span class="fable">FABLE</span></span>
+            </div>
+
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/presets.html" class="nav-link active">Presets</a>
+                <a href="/grading.html" class="nav-link">Grading Service</a>
+                <a href="/contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="/cart.html" class="cart-btn" aria-label="Cart">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="/login.html" class="login-btn">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="presets-hero">
+        <div class="ph-bg-container">
+            <img src="assets/presetshero.jpg" alt="Presets Hero" class="ph-bg-img">
+            <div class="hero-overlay-gradient-t"></div>
+        </div>
+
+        <div class="hero-content text-center">
+            <h1 class="hero-title white-gradient-text">Presets & LUTs</h1>
+            <p class="hero-subtitle">
+                Explore our premium color grading presets and LUTs, designed for every creative style.
+                Instantly elevate your photos and videos with professional-grade looks.
+            </p>
+            <div class="ph-badges">
+                <span class="ph-badge">Professional Quality</span>
+                <span class="ph-badge">Instant Download</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sort & Filters -->
+    <section class="filter-section">
+        <div class="section-container">
+            <div class="filter-bar">
+                <div class="filter-info">
+                    <h2 class="filter-title">Browse Presets</h2>
+                    <p class="filter-subtitle">Found <span id="preset-count">0</span> premium presets</p>
+                </div>
+                <div class="filter-controls">
+                    <label for="sortPresets" class="sort-label">Sort by:</label>
+                    <select id="sortPresets" class="sort-select">
+                        <option value="name-asc">Name (A-Z)</option>
+                        <option value="name-desc">Name (Z-A)</option>
+                        <option value="price-asc">Price (Low to High)</option>
+                        <option value="price-desc">Price (High to Low)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Presets Grid -->
+    <section class="presets-list-section">
+        <div class="section-container">
+            <div id="all-presets-grid" class="all-presets-grid">
+                <!-- Preset items rendered by JS -->
+                <div class="loader-container">
+                    <div class="spinner"></div>
+                    <p>Loading presets...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container text-center">
+            <p>&copy; 2026 PixelFable. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/presets.js"></script>
+    <script src="js/script.js"></script> <!-- Reusing navbar logic -->
+</body>
+
+</html>
