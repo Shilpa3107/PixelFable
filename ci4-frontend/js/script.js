@@ -43,7 +43,21 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroSlider();
     renderPresets();
     initMobileMenu();
+    updateNavbarCartCount(); // Initialize cart count on load
 });
+
+/**
+ * Helper to update navbar cart count across all pages
+ */
+function updateNavbarCartCount() {
+    const data = localStorage.getItem('pixelfable_cart');
+    const cart = data ? JSON.parse(data) : [];
+    const countEl = document.querySelector('.cart-count');
+    if (countEl) {
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        countEl.textContent = totalItems;
+    }
+}
 
 function initHeroSlider() {
     const container = document.getElementById('hero-bg-container');

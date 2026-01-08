@@ -46,3 +46,5 @@ $routes->group('api', function($routes) {
         $routes->get('test-email', 'PaymentController::testEmail');
     });
 });
+
+$routes->get('checkout', 'CheckoutController::index');

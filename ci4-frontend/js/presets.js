@@ -111,9 +111,8 @@ function renderPresets(presets) {
         // Navigation on click (excluding buttons)
         card.addEventListener('click', (e) => {
             if (!e.target.closest('button')) {
-                // Navigate to details page (mock)
-                console.log(`Navigating to preset ${preset.id}`);
-                // window.location.href = `/preset-details.html?id=${preset.id}`;
+                // Navigate to details page with ID
+                window.location.href = `preset-details.html?id=${preset.id}`;
             }
         });
 
@@ -159,21 +158,41 @@ window.addToCart = (id) => {
     // Find the preset to get its name
     const item = currentPresets.find(p => p.id == id);
     if (item) {
-        console.log(`Added ${item.name} to cart`);
-        // Mock cart UI update
+        // Persistent Cart Logic
+        let cartData = localStorage.getItem('pixelfable_cart');
+        let cart = cartData ? JSON.parse(cartData) : [];
+
+        const existingIndex = cart.findIndex(i => i.id === item.id);
+        if (existingIndex > -1) {
+            cart[existingIndex].quantity += 1;
+        } else {
+            cart.push({
+                id: item.id,
+                name: item.name,
+                price: item.price,
+                image: item.images[0],
+                category: item.category,
+                quantity: 1
+            });
+        }
+
+        localStorage.setItem('pixelfable_cart', JSON.stringify(cart));
+
+        // Update Navbar UI
         const countEl = document.querySelector('.cart-count');
-        let count = parseInt(countEl.textContent || '0');
-        countEl.textContent = count + 1;
+        if (countEl) {
+            countEl.textContent = cart.reduce((sum, i) => sum + i.quantity, 0);
+        }
+
         alert(`Added "${item.name}" to cart!`);
     }
 };
 
 window.buyNow = (id) => {
-    // This is where we will hook into the Payment Flow later
     const item = currentPresets.find(p => p.id == id);
     if (item) {
-        console.log(`Initiating checkout for ${item.name}`);
-        // For now, just an alert. Next step: Hook into Razorpay
-        alert(`Redirecting to checkout for: ${item.name} (₹${item.price})`);
+        // For "Buy Now", we add to cart and redirect immediately
+        window.addToCart(id);
+        window.location.href = 'cart.html';
     }
 };

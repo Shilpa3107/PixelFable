@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | PixelFable</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/pixelfableWhite.png" alt="PixelFable Logo" class="logo-img">
+                <span class="logo-text"><span>PIXEL</span><span class="fable">FABLE</span></span>
+            </div>
+
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="presets.html" class="nav-link">Presets</a>
+                <a href="grading.html" class="nav-link">Grading Service</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn active" aria-label="Cart">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="login.html" class="login-btn">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Page Content -->
+    <main class="cart-page-wrapper">
+        <div class="section-container">
+            <!-- Header -->
+            <div class="cart-header text-center">
+                <div class="cart-icon-wrapper">
+                    <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                </div>
+                <h1 class="cart-title">Your Cart</h1>
+                <p class="cart-subtitle">Complete your purchase to receive professional presets</p>
+            </div>
+
+            <!-- Empty Cart State (Hidden by default) -->
+            <div id="empty-cart-view" class="empty-cart-view text-center" style="display: none;">
+                <div class="empty-cart-icon">
+                    <svg width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z">
+                        </path>
+                    </svg>
+                </div>
+                <h2 class="empty-cart-title">Your cart is empty</h2>
+                <p class="empty-cart-desc">Start building your collection of professional presets to enhance your
+                    photography</p>
+                <a href="presets.html" class="btn btn-primary">
+                    Browse Presets
+                    <svg class="ml-2" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7-7 7M3 12h18">
+                        </path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Cart Content Area (Populated by JS) -->
+            <div id="cart-content-view" class="cart-content-view" style="display: none;">
+                <div class="cart-layout-grid">
+                    <!-- Left Column: Items List -->
+                    <div class="cart-items-container">
+                        <div class="cart-items-card">
+                            <div class="cart-card-header">
+                                <h2 class="cart-card-title">Items (<span id="cart-items-count">0</span>)</h2>
+                            </div>
+                            <div id="cart-items-list" class="cart-items-list">
+                                <!-- Items rendered by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Summary & Payment -->
+                    <div class="cart-summary-container">
+                        <div class="summary-sticky-wrapper">
+                            <!-- Order Summary -->
+                            <div class="summary-card">
+                                <div class="summary-header">
+                                    <h2 class="summary-title">Order Summary</h2>
+                                </div>
+                                <div class="summary-details">
+                                    <div class="summary-row">
+                                        <span class="summary-label">Subtotal</span>
+                                        <span class="summary-value" id="cart-subtotal">₹0.00</span>
+                                    </div>
+                                    <div class="summary-row">
+                                        <span class="summary-label">Taxes</span>
+                                        <span class="summary-value">₹0.00</span>
+                                    </div>
+                                    <div class="summary-divider"></div>
+                                    <div class="summary-row total">
+                                        <span class="total-label">Total Amount</span>
+                                        <span class="total-value" id="cart-total">₹0.00</span>
+                                    </div>
+                                </div>
+                                <div class="summary-actions">
+                                    <button id="proceed-to-payment" class="btn btn-primary btn-full">
+                                        Proceed to Payment
+                                        <svg class="ml-2" width="18" height="18" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M14 5l7 7-7 7M3 12h18"></path>
+                                        </svg>
+                                    </button>
+                                    <a href="presets.html" class="btn btn-secondary btn-full">Continue Shopping</a>
+                                </div>
+                            </div>
+
+                            <!-- Trust Badges -->
+                            <div class="security-badges-card">
+                                <div class="badge-item">
+                                    <span class="badge-icon green">✓</span>
+                                    <span class="badge-text">Secure Payment</span>
+                                </div>
+                                <div class="badge-item">
+                                    <span class="badge-icon blue">✓</span>
+                                    <span class="badge-text">Instant Delivery</span>
+                                </div>
+                                <div class="badge-item">
+                                    <span class="badge-icon purple">✓</span>
+                                    <span class="badge-text">Professional Quality</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container text-center">
+            <p>&copy; 2026 PixelFable. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+
+</html>

@@ -27,8 +27,9 @@ class PaymentController extends BaseController
     public function createOrder()
     {
         $presetId = $this->request->getVar('preset_id');
-        $email = $this->request->getVar('email');
-        $name = $this->request->getVar('name') ?? 'Guest';
+        // Handle both 'email' and 'customer_email' for flexibility
+        $email = $this->request->getVar('email') ?? $this->request->getVar('customer_email');
+        $name = $this->request->getVar('customer_name') ?? $this->request->getVar('name') ?? 'Guest';
 
         if (!$presetId || !$email) {
             return $this->fail('Preset ID and Email are required.');
@@ -44,10 +45,12 @@ class PaymentController extends BaseController
         $api = new Api($this->razorpayKey, $this->razorpaySecret);
 
         try {
-            // Amount is in paisa (1 INR = 100 paisa)
+            // Amount MUST be an integer in paise (1 INR = 100 paise)
+            $totalAmount = (int)round($preset['price'] * 100);
+
             $orderData = [
                 'receipt'         => 'rcpt_' . time(),
-                'amount'          => $preset['price'] * 100,
+                'amount'          => $totalAmount,
                 'currency'        => 'INR',
                 'payment_capture' => 1 // Auto capture
             ];
@@ -68,10 +71,12 @@ class PaymentController extends BaseController
 
             return $this->respond([
                 'status' => 200,
-                'order_id' => $razorpayOrder['id'],
-                'amount' => $orderData['amount'],
-                'currency' => $orderData['currency'],
-                'key' => $this->razorpayKey
+                'data' => [
+                    'id' => $razorpayOrder['id'],
+                    'amount' => $orderData['amount'],
+                    'currency' => $orderData['currency'],
+                    'key_id' => $this->razorpayKey
+                ]
             ]);
 
         } catch (\Exception $e) {

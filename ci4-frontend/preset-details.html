@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preset Details | PixelFable</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/pixelfableWhite.png" alt="PixelFable Logo" class="logo-img">
+                <span class="logo-text"><span>PIXEL</span><span class="fable">FABLE</span></span>
+            </div>
+            
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="presets.html" class="nav-link active">Presets</a>
+                <a href="grading.html" class="nav-link">Grading Service</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <div class="nav-actions">
+                <a href="cart.html" class="cart-btn" aria-label="Cart">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    <span class="cart-count">0</span>
+                </a>
+                <a href="login.html" class="login-btn">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="details-page">
+        <div class="details-container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="presets.html" class="breadcrumb-link">Presets</a>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-category" id="breadcrumb-category">Loading...</span>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-current" id="breadcrumb-name">Loading...</span>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading-state" class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading preset details...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-state" class="error-state" style="display: none;">
+                <h2>Preset not found</h2>
+                <p id="error-message">The requested preset could not be found.</p>
+                <a href="presets.html" class="btn btn-primary">Back to Presets</a>
+            </div>
+
+            <!-- Details Content -->
+            <div id="details-content" class="details-content" style="display: none;">
+                <div class="details-card">
+                    <div class="details-grid">
+                        <!-- Image Gallery Section -->
+                        <div class="gallery-section">
+                            <!-- Mobile: Horizontal Thumbnails -->
+                            <div class="thumbnails-mobile" id="thumbnails-mobile">
+                                <!-- Thumbnails injected by JS -->
+                            </div>
+
+                            <!-- Desktop: Vertical Thumbnails -->
+                            <div class="gallery-desktop">
+                                <div class="thumbnails-vertical" id="thumbnails-vertical">
+                                    <!-- Thumbnails injected by JS -->
+                                </div>
+
+                                <!-- Main Image -->
+                                <div class="main-image-container">
+                                    <img id="main-image" src="" alt="Preset Image" class="main-image">
+                                </div>
+                            </div>
+
+                            <!-- Mobile: Main Image -->
+                            <div class="gallery-mobile">
+                                <div class="main-image-container-mobile">
+                                    <img id="main-image-mobile" src="" alt="Preset Image" class="main-image">
+                                    
+                                    <!-- Navigation Arrows -->
+                                    <button class="image-nav-btn prev-btn" id="prev-btn" aria-label="Previous image">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                        </svg>
+                                    </button>
+                                    <button class="image-nav-btn next-btn" id="next-btn" aria-label="Next image">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <!-- Image Counter -->
+                                <div class="image-counter" id="image-counter" style="display: none;">
+                                    <span id="current-image-num">1</span> of <span id="total-images">1</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Details Section -->
+                        <div class="info-section">
+                            <h1 class="preset-title" id="preset-title">Loading...</h1>
+                            <p class="preset-category">
+                                Category: <span id="preset-category">Loading...</span>
+                            </p>
+
+                            <!-- Highlights -->
+                            <div class="highlights-grid">
+                                <div class="highlight-card">
+                                    <div class="highlight-label">Style</div>
+                                    <div class="highlight-value">Cinematic</div>
+                                </div>
+                                <div class="highlight-card">
+                                    <div class="highlight-label">Author</div>
+                                    <div class="highlight-value">Pixelfable</div>
+                                </div>
+                            </div>
+
+                            <!-- Price & Actions -->
+                            <div class="price-actions">
+                                <div class="price-block">
+                                    <div class="price-label">Price</div>
+                                    <div class="price-value" id="preset-price">₹0.00</div>
+                                </div>
+                                <div class="action-buttons">
+                                    <a href="presets.html" class="btn btn-secondary">Back to Presets</a>
+                                    <button id="add-to-cart-btn" class="btn btn-primary">Add to Cart</button>
+                                </div>
+                            </div>
+
+                            <!-- Trust Badges -->
+                            <div class="trust-badges">
+                                <div class="trust-badge">
+                                    <span class="badge-icon green">✓</span>
+                                    <span>Instant Download</span>
+                                </div>
+                                <div class="trust-badge">
+                                    <span class="badge-icon blue">✓</span>
+                                    <span>Secure Payment</span>
+                                </div>
+                                <div class="trust-badge full-width">
+                                    <span class="badge-icon purple">✓</span>
+                                    <span>Lifetime Access</span>
+                                </div>
+                            </div>
+
+                            <!-- Description -->
+                            <div class="description-section">
+                                <h2 class="description-title">Description</h2>
+                                <p class="description-text" id="preset-description">
+                                    This preset brings cinematic color tones and balanced contrast optimized for professional edits. It's designed to work beautifully across a variety of lighting conditions and camera profiles.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container text-center">
+            <p>&copy; 2026 PixelFable. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/preset-details.js"></script>
+</body>
+</html>
