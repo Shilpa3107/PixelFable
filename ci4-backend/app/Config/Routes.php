@@ -7,6 +7,10 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 
+// Web Auth Routes
+$routes->get('login', 'AuthController::loginPage');
+$routes->get('signup', 'AuthController::signupPage');
+
 $routes->group('api', function($routes) {
     // Public/Auth Routes
     $routes->post('signup', 'AuthController::signup', ['filter' => 'throttle:5,60']);

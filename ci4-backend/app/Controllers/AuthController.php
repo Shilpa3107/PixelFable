@@ -12,22 +12,50 @@ class AuthController extends ResourceController
 {
     use ResponseTrait;
 
+    public function loginPage()
+    {
+        if (session()->get('isLoggedIn')) {
+            return redirect()->to('/api/admin/dashboard');
+        }
+        return view('auth/login');
+    }
+
+    public function signupPage()
+    {
+        if (session()->get('isLoggedIn')) {
+            return redirect()->to('/api/admin/dashboard');
+        }
+        return view('auth/signup');
+    }
+
     public function signup()
     {
         $userModel = new UserModel();
-        $data = $this->request->getJSON(true);
+        
+        // Handle both JSON and Form Data
+        $data = $this->request->getJSON(true) ?: $this->request->getPost();
 
-        if (!$userModel->insert($data)) {
-            return $this->failValidationErrors($userModel->errors());
+        if (empty($data)) {
+            return $this->fail('No data received');
         }
 
-        return $this->respondCreated([
-            'status'  => 201,
-            'message' => 'User registered successfully',
-            'data'    => [
-                'email' => $data['email']
-            ]
-        ]);
+        if (!$userModel->insert($data)) {
+            $errors = $userModel->errors();
+            if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+                return $this->failValidationErrors($errors);
+            }
+            return redirect()->back()->withInput()->with('errors', $errors);
+        }
+
+        if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+            return $this->respondCreated([
+                'status'  => 201,
+                'message' => 'User registered successfully',
+                'data'    => ['email' => $data['email']]
+            ]);
+        }
+
+        return redirect()->to('/login')->with('success', 'Registration successful! Please login.');
     }
 
     public function login()
@@ -38,7 +66,10 @@ class AuthController extends ResourceController
         ];
 
         if (!$this->validate($rules)) {
-            return $this->failValidationErrors($this->validator->getErrors());
+            if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+                return $this->failValidationErrors($this->validator->getErrors());
+            }
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $userModel = new UserModel();
@@ -56,12 +87,20 @@ class AuthController extends ResourceController
 
         if (!$user || !password_verify($password, $user['password'])) {
             log_message('warning', 'Failed login attempt for email: {email}', ['email' => $email]);
-            return $this->failUnauthorized('Invalid login credentials');
+            $error = 'Invalid login credentials';
+            if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+                return $this->failUnauthorized($error);
+            }
+            return redirect()->back()->withInput()->with('error', $error);
         }
 
         if ($user['is_active'] == 0) {
             log_message('warning', 'Login attempt for deactivated account: {email}', ['email' => $email]);
-            return $this->failForbidden('Your account is deactivated. Please contact support.');
+            $error = 'Your account is deactivated. Please contact support.';
+            if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+                return $this->failForbidden($error);
+            }
+            return redirect()->back()->withInput()->with('error', $error);
         }
 
         log_message('info', 'Successful login for user ID: {id}', ['id' => $user['id']]);
@@ -69,9 +108,10 @@ class AuthController extends ResourceController
         // --- SESSION BASED AUTH ---
         $session = session();
         $sessionData = [
-            'id'       => $user['id'],
-            'email'    => $user['email'],
-            'role'     => $user['role'],
+            'id'         => $user['id'],
+            'email'      => $user['email'],
+            'name'       => $user['name'] ?? '',
+            'role'       => $user['role'],
             'isLoggedIn' => true,
         ];
         $session->set($sessionData);
@@ -89,12 +129,16 @@ class AuthController extends ResourceController
 
         $token = JWT::encode($payload, $key, 'HS256');
 
-        return $this->respond([
-            'status'  => 200,
-            'message' => 'Login successful',
-            'token'   => $token, // JWT still returned if needed
-            'user'    => $sessionData
-        ]);
+        if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+            return $this->respond([
+                'status'  => 200,
+                'message' => 'Login successful',
+                'token'   => $token,
+                'user'    => $sessionData
+            ]);
+        }
+
+        return redirect()->to($user['role'] === 'admin' ? '/api/admin/dashboard' : '/');
     }
 
     public function logout()

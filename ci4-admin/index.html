@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | PixelFable</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-logo">
+                <img src="../ci4-frontend/assets/pixelfableWhite.png" alt="Logo" class="logo-img">
+                <div class="logo-text">PIXEL<span>FABLE</span></div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-label">Main</div>
+                    <a href="#" class="nav-item active" data-view="dashboard">
+                        <i data-lucide="layout-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-label">Management</div>
+                    <a href="#" class="nav-item" data-view="users">
+                        <i data-lucide="users"></i>
+                        <span>Users</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="presets">
+                        <i data-lucide="palette"></i>
+                        <span>Presets</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="products">
+                        <i data-lucide="shopping-bag"></i>
+                        <span>Products</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="orders">
+                        <i data-lucide="shopping-cart"></i>
+                        <span>Orders</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="payments">
+                        <i data-lucide="credit-card"></i>
+                        <span>Payments</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="images">
+                        <i data-lucide="image"></i>
+                        <span>Images</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-label">Reports & Logs</div>
+                    <a href="#" class="nav-item" data-view="reports">
+                        <i data-lucide="bar-chart-3"></i>
+                        <span>Reports</span>
+                    </a>
+                    <a href="#" class="nav-item" data-view="emails">
+                        <i data-lucide="mail"></i>
+                        <span>Email Logs</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-label">System</div>
+                    <a href="#" class="nav-item" data-view="settings">
+                        <i data-lucide="settings"></i>
+                        <span>Settings</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="#" class="nav-item">
+                    <i data-lucide="log-out"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Wrapper -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="header-btn mobile-menu-toggle" id="menuToggle">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div class="header-search">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" class="search-input" placeholder="Search data, orders, or users...">
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <button class="header-btn notification-badge">
+                        <i data-lucide="bell"></i>
+                        <span class="badge-dot"></span>
+                    </button>
+                    <button class="header-btn">
+                        <i data-lucide="help-circle"></i>
+                    </button>
+                    <div class="user-profile">
+                        <div class="text-right d-none-mobile" style="margin-right: 8px;">
+                            <div style="font-size: 0.875rem; font-weight: 600;">Admin User</div>
+                            <div style="font-size: 0.75rem; color: var(--color-text-muted);">Super Admin</div>
+                        </div>
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=6366f1&color=fff" alt="Avatar" class="user-avatar">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Page Content -->
+            <main class="page-container" id="content-area">
+                <!-- Dashboard Overview (Default) -->
+                <div id="dashboard-view">
+                    <div class="page-header">
+                        <h1 class="page-title">Dashboard Overview</h1>
+                        <p class="page-subtitle">Welcome back, here's what's happening with PixelFable today.</p>
+                    </div>
+
+                    <!-- KPI Cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Total Users</span>
+                                <div class="stat-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
+                                    <i data-lucide="users"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="count-users">1,248</div>
+                            <div class="stat-trend trend-up">
+                                <i data-lucide="arrow-up-right" style="width: 14px;"></i>
+                                <span>12% from last month</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Active Presets</span>
+                                <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                    <i data-lucide="palette"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="count-presets">86</div>
+                            <div class="stat-trend trend-up">
+                                <i data-lucide="arrow-up-right" style="width: 14px;"></i>
+                                <span>4 new this week</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Total Orders</span>
+                                <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                                    <i data-lucide="shopping-cart"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="count-orders">3,492</div>
+                            <div class="stat-trend trend-up">
+                                <i data-lucide="arrow-up-right" style="width: 14px;"></i>
+                                <span>8% increase</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-label">Revenue (Razorpay)</span>
+                                <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                                    <i data-lucide="indian-rupee"></i>
+                                </div>
+                            </div>
+                            <div class="stat-value" id="count-revenue">₹4,82,500</div>
+                            <div class="stat-trend trend-up">
+                                <i data-lucide="arrow-up-right" style="width: 14px;"></i>
+                                <span>21% growth</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Area -->
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 style="font-size: 1.125rem;">Sales Performance</h3>
+                                <select class="btn btn-outline btn-sm">
+                                    <option>Last 30 Days</option>
+                                    <option>Last 6 Months</option>
+                                    <option>Year to Date</option>
+                                </select>
+                            </div>
+                            <div style="height: 300px;">
+                                <canvas id="salesChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3 style="font-size: 1.125rem;">Order Distribution</h3>
+                            </div>
+                            <div style="height: 300px;">
+                                <canvas id="distributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Orders Table -->
+                    <div class="data-card">
+                        <div class="table-header">
+                            <h3 style="font-size: 1.125rem;">Recent Orders</h3>
+                            <button class="btn btn-primary btn-sm">View All Orders</button>
+                        </div>
+                        <div class="table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Product</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-orders-list">
+                                    <!-- Rows will be injected by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modals Holder -->
+    <div id="modal-container"></div>
+
+    <!-- Main Logic -->
+    <script src="js/admin.js"></script>
+</body>
+</html>

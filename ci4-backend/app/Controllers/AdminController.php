@@ -35,7 +35,7 @@ class AdminController extends ResourceController
     public function users()
     {
         $userModel = new UserModel();
-        $users = $userModel->select('id, email, role, is_active, created_at')->findAll();
+        $users = $userModel->select('id, name, email, role, is_active, created_at')->findAll();
 
         return $this->respond([
             'status' => 200,
