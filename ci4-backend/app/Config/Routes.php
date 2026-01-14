@@ -39,6 +39,9 @@ $routes->group('api', function($routes) {
         // Image Management
         $routes->post('presets/(:num)/images', 'PresetController::uploadImages/$1');
         $routes->delete('images/(:num)', 'PresetController::deleteImage/$1');
+        
+        // Orders
+        $routes->get('orders', 'PaymentController::index');
     });
 
     // Payment Routes (Razorpay)

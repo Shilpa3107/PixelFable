@@ -44,7 +44,79 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPresets();
     initMobileMenu();
     updateNavbarCartCount(); // Initialize cart count on load
+    checkAuth(); // Check user login status
 });
+
+/**
+ * Authentication Check
+ * Shows user name in header if logged in
+ */
+function checkAuth() {
+    const userStr = localStorage.getItem('pf_user');
+    console.log('--- PF Auth Check ---');
+    console.log('User string from storage:', userStr);
+
+    if (!userStr) {
+        console.log('No user logged in.');
+        return;
+    }
+
+    try {
+        const user = JSON.parse(userStr);
+        if (!user || (!user.name && !user.email)) return;
+
+        const displayName = user.name ? user.name.split(' ')[0] : user.email.split('@')[0];
+        console.log('Display name:', displayName);
+
+        // Update Desktop Header
+        const navActions = document.querySelector('.nav-actions');
+        if (navActions) {
+            // Remove existing user info to avoid duplicates
+            const existing = navActions.querySelector('.user-nav-info');
+            if (existing) existing.remove();
+
+            // Hide/Remove ALL login buttons in the navbar
+            const loginBtns = document.querySelectorAll('.login-btn, a[href*="login.html"]');
+            loginBtns.forEach(btn => {
+                if (navActions.contains(btn)) {
+                    btn.style.display = 'none'; // Hide instead of remove to be safe
+                }
+            });
+
+            // Create User Display
+            const userDiv = document.createElement('div');
+            userDiv.className = 'user-nav-info';
+            userDiv.style.cssText = 'display:flex; align-items:center; gap:0.75rem; margin-left:1rem;';
+            userDiv.innerHTML = `
+                <span style="color:white; font-weight:600; font-size:0.85rem;">Hi, ${displayName}</span>
+                <button class="logout-btn" style="background:transparent; color:#ff4d4d; border:1px solid #ff4d4d; border-radius:4px; padding:0.3rem 0.6rem; font-size:0.75rem; cursor:pointer; transition:all 0.3s;">Logout</button>
+            `;
+
+            const btn = userDiv.querySelector('.logout-btn');
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                logout();
+            });
+            btn.addEventListener('mouseover', () => { btn.style.background = '#ff4d4d'; btn.style.color = 'white'; });
+            btn.addEventListener('mouseout', () => { btn.style.background = 'transparent'; btn.style.color = '#ff4d4d'; });
+
+            navActions.appendChild(userDiv);
+            console.log('Desktop header updated.');
+        }
+    } catch (err) {
+        console.error('Auth check error:', err);
+    }
+}
+
+// Ensure it runs after all scripts and styles are loaded
+window.addEventListener('load', checkAuth);
+
+function logout() {
+    localStorage.removeItem('pf_user');
+    localStorage.removeItem('pf_token');
+    // Also clear cart if you want, but usually session stays
+    window.location.reload();
+}
 
 /**
  * Helper to update navbar cart count across all pages
@@ -62,6 +134,9 @@ function updateNavbarCartCount() {
 function initHeroSlider() {
     const container = document.getElementById('hero-bg-container');
     const dotsContainer = document.getElementById('hero-slider-dots');
+
+    if (!container || !dotsContainer) return;
+
     let currentIndex = 0;
     let interval;
 
@@ -131,6 +206,7 @@ function initHeroSlider() {
 
 function renderPresets() {
     const grid = document.getElementById('presets-grid');
+    if (!grid) return;
 
     featuredPresets.forEach(preset => {
         const card = document.createElement('a');
@@ -155,18 +231,26 @@ function renderPresets() {
 function initMobileMenu() {
     const btn = document.querySelector('.mobile-menu-btn');
     const links = document.querySelector('.nav-links');
+    const actions = document.querySelector('.nav-actions');
 
-    if (btn) {
+    if (btn && links) {
         btn.addEventListener('click', () => {
-            // Simple toggle for now, in a real app would toggle class on nav container
-            links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
-            links.style.flexDirection = 'column';
-            links.style.position = 'absolute';
-            links.style.top = '80px';
-            links.style.left = '0';
-            links.style.width = '100%';
-            links.style.background = 'black';
-            links.style.padding = '2rem';
+            const isVisible = links.style.display === 'flex';
+
+            [links, actions].forEach(el => {
+                if (!el) return;
+                el.style.display = isVisible ? 'none' : 'flex';
+                el.style.flexDirection = 'column';
+                el.style.position = 'absolute';
+                el.style.top = (80 + (el === actions ? links.offsetHeight : 0)) + 'px';
+                el.style.left = '0';
+                el.style.width = '100%';
+                el.style.background = 'black';
+                el.style.padding = '1rem 2rem';
+                el.style.zIndex = '999';
+            });
+
+            if (actions) actions.style.top = (80 + links.offsetHeight) + 'px';
         });
     }
 }

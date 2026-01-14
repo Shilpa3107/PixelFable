@@ -22,6 +22,31 @@ class PaymentController extends BaseController
     }
 
     /**
+     * Admin: List all orders
+     */
+    public function index()
+    {
+        // Security check via Route Filters generally, but explicit check doesn't hurt if filter fails
+        // Actually rely on Filter: 'role:admin' on the route group.
+
+        $purchaseModel = new PurchaseModel();
+        
+        // Join with presets to get product name
+        // Purchases typical structure: id, preset_id, ...
+        // Presets: id, name, ...
+        
+        $purchases = $purchaseModel->select('purchases.*, presets.name as preset_name')
+                                   ->join('presets', 'presets.id = purchases.preset_id', 'left')
+                                   ->orderBy('purchases.created_at', 'DESC')
+                                   ->findAll();
+
+        return $this->respond([
+            'status' => 200,
+            'data'   => $purchases
+        ]);
+    }
+
+    /**
      * Step 1: Create a Razorpay Order
      */
     public function createOrder()

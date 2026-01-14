@@ -1,0 +1,38 @@
+# OS junk
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific
+node_modules/
+vendor/
+.env
+*.log
+writable/cache/*
+writable/logs/*
+writable/session/*
+writable/debugbar/*
+!writable/**/index.html
+
+# Documentation/Reports created during dev (optional to ignore)
+FIX_SIGNUP_ERROR.md
+SIGNUP_FIXED.md
+SIGNUP_FIX_REPORT.md
+TESTING_CHECKLIST.md
+TEST_SUMMARY.md
+TROUBLESHOOT_NOW.md
+URGENT_SIGNUP_FIX.md
+CLEAN_SERVER_OUTPUT_EXAMPLE.md
+
+# Temporary test files
+ci4-frontend/api-test.html
+ci4-frontend/debug-signup.html
+ci4-frontend/test-backend.php
+ci4-frontend/test-signup.html
+ci4-backend/check_admin.php

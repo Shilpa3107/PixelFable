@@ -6,11 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize Icons
     lucide.createIcons();
 
+    // Check Auth
+    const token = localStorage.getItem('pf_token');
+    if (!token) {
+        window.location.href = '../ci4-frontend/login.html';
+        return;
+    }
+
     // Setup Sidebar Navigation
     setupNavigation();
 
     // Default: Dashboard
-    initDashboard();
+    renderView('dashboard');
 
     // Mobile Menu Toggle
     const menuToggle = document.getElementById('menuToggle');
@@ -21,7 +28,24 @@ document.addEventListener('DOMContentLoaded', () => {
             sidebar.classList.toggle('active');
         });
     }
+
+    // Admin Logout
+    const logoutBtn = document.getElementById('adminLogout');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear tokens and redirect
+                localStorage.removeItem('pf_token');
+                localStorage.removeItem('pf_user');
+                sessionStorage.clear(); // Clear any session data
+                window.location.href = '../ci4-frontend/login.html';
+            }
+        });
+    }
 });
+
+const API_BASE = 'http://localhost/pixelFable-main/ci4-backend/public/index.php/api';
 
 /**
  * Handle Sidebar Navigation & View Switching
@@ -51,22 +75,23 @@ function setupNavigation() {
 /**
  * Main View Router
  */
-function renderView(viewName) {
+async function renderView(viewName) {
     const contentArea = document.getElementById('content-area');
+    contentArea.innerHTML = '<div style="padding: 2rem; text-align: center; color: #6b7280;">Loading data...</div>';
     console.log(`Switching to view: ${viewName}`);
 
     switch (viewName) {
         case 'dashboard':
-            window.location.reload(); // Quick way to reset to dashboard for now
+            await loadDashboard(contentArea);
             break;
         case 'users':
-            renderUsersView(contentArea);
+            await loadUsers(contentArea);
             break;
         case 'presets':
-            renderPresetsView(contentArea);
+            await loadPresets(contentArea);
             break;
         case 'orders':
-            renderOrdersView(contentArea);
+            await loadOrders(contentArea);
             break;
         case 'settings':
             renderSettingsView(contentArea);
@@ -91,373 +116,279 @@ function renderView(viewName) {
 }
 
 /**
- * Dashboard Initialization (Charts & Recent Data)
+ * Dashboard Loader
  */
-function initDashboard() {
-    // Sales Chart
-    const salesCtx = document.getElementById('salesChart');
-    if (salesCtx) {
-        new Chart(salesCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-                datasets: [{
-                    label: 'Revenue (INR)',
-                    data: [35000, 48000, 42000, 55000, 68000, 59000, 75000, 82000],
-                    borderColor: '#6366f1',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 3
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
-                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
-                }
-            }
-        });
-    }
+async function loadDashboard(container) {
+    try {
+        // Fetch stats
+        const response = await fetchWithAuth(`${API_BASE}/admin/dashboard`);
+        const result = await response.json();
+        const stats = result.data.stats;
 
-    // Distribution Chart
-    const distCtx = document.getElementById('distributionChart');
-    if (distCtx) {
-        new Chart(distCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['LR Presets', 'LUTs', 'Mobile', 'Desktop'],
-                datasets: [{
-                    data: [45, 25, 20, 10],
-                    backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#3b82f6'],
-                    borderWidth: 0,
-                    hoverOffset: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { color: '#94a3b8', padding: 20, usePointStyle: true }
-                    }
-                }
-            }
-        });
-    }
+        // Render basic structure
+        container.innerHTML = `
+            <div id="dashboard-view">
+                <div class="page-header">
+                    <h1 class="page-title">Dashboard Overview</h1>
+                    <p class="page-subtitle">Welcome back, here's what's happening with PixelFable today.</p>
+                </div>
 
-    // Render Recent Orders
-    const ordersBody = document.getElementById('recent-orders-list');
-    if (ordersBody) {
-        const mockOrders = [
-            { id: '#PF-9021', customer: 'Aryan Sharma', product: 'Cinematic Teal Pack', amount: '₹1,299', date: 'Oct 24, 2025', status: 'completed' },
-            { id: '#PF-9022', customer: 'Priya Verma', product: 'Vintage Retro LUTs', amount: '₹999', date: 'Oct 24, 2025', status: 'pending' },
-            { id: '#PF-9023', customer: 'Kabir Singh', product: 'Dark Moody Mobile', amount: '₹499', date: 'Oct 23, 2025', status: 'completed' },
-            { id: '#PF-9024', customer: 'Ananya Rao', product: 'Nature Landscape Pack', amount: '₹1,499', date: 'Oct 23, 2025', status: 'disabled' },
-        ];
-
-        ordersBody.innerHTML = mockOrders.map(order => `
-            <tr>
-                <td style="font-family: monospace; font-weight: 600;">${order.id}</td>
-                <td>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <img src="https://ui-avatars.com/api/?name=${order.customer}&size=24&background=random" style="border-radius: 50%;">
-                        ${order.customer}
+                <!-- KPI Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Total Users</span>
+                            <div class="stat-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;">
+                                <i data-lucide="users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="count-users">${stats.total_users || 0}</div>
                     </div>
-                </td>
-                <td>${order.product}</td>
-                <td style="color: var(--color-text-muted);">${order.date}</td>
-                <td style="font-weight: 700;">${order.amount}</td>
-                <td><span class="status-badge status-${order.status}">${order.status}</span></td>
-                <td>
-                    <button class="btn-sm btn-outline"><i data-lucide="eye" style="width: 14px;"></i></button>
-                    <button class="btn-sm btn-outline"><i data-lucide="more-horizontal" style="width: 14px;"></i></button>
-                </td>
-            </tr>
-        `).join('');
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Active Presets</span>
+                            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                <i data-lucide="palette"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="count-presets">${stats.total_presets || 0}</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-label">Active Users</span>
+                             <div class="stat-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                                <i data-lucide="users"></i>
+                            </div>
+                        </div>
+                         <div class="stat-value" id="count-active-users">${stats.active_users || 0}</div>
+                    </div>
+                </div>
+
+                <!-- Charts Area: Placeholder for now as we don't have historical data API yet -->
+                <div class="charts-grid">
+                     <div class="stat-card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+                        <h3>Detailed Analytics Coming Soon</h3>
+                        <p style="color: grey;">Historical data visualization will appear here once data logs generate.</p>
+                     </div>
+                </div>
+            </div>
+        `;
         lucide.createIcons();
+
+    } catch (error) {
+        container.innerHTML = `<div class="error-state">Failed to load dashboard: ${error.message}</div>`;
     }
 }
 
 /**
- * Users Management View
- */
-function renderUsersView(container) {
-    container.innerHTML = `
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
-            <div>
-                <h1 class="page-title">User Management</h1>
-                <p class="page-subtitle">Manage customer accounts and administrative roles.</p>
-            </div>
-            <button class="btn btn-primary"><i data-lucide="plus" style="display: inline; vertical-align: middle; margin-right: 4px;"></i> Add User</button>
-        </div>
+     * User Management Loader
+     */
+async function loadUsers(container) {
+    try {
+        const response = await fetchWithAuth(`${API_BASE}/admin/users`);
+        const json = await response.json();
+        const users = json.data || [];
 
-        <div class="data-card">
-            <div class="table-header">
-                <div style="display: flex; gap: 12px;">
-                    <input type="text" class="search-input" placeholder="Filter by name or email..." style="padding-left: 12px; width: 300px;">
-                    <select class="btn btn-outline" style="font-weight: 400;">
-                        <option>All Roles</option>
-                        <option>Admin</option>
-                        <option>Customer</option>
-                    </select>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                     <button class="btn btn-outline btn-sm">Export CSV</button>
-                     <button class="btn btn-outline btn-sm">Bulk Delete</button>
+        container.innerHTML = `
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end;">
+                <div>
+                    <h1 class="page-title">User Management</h1>
+                    <p class="page-subtitle">Manage customer accounts and administrative roles.</p>
                 </div>
             </div>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Joined</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <img src="https://ui-avatars.com/api/?name=Admin+User&background=6366f1&color=fff&size=32" alt="Avatar" class="user-avatar">
-                                    <span style="font-weight: 600;">Admin User</span>
-                                </div>
-                            </td>
-                            <td>admin@pixelfable.com</td>
-                            <td><span style="color: var(--color-primary); font-weight: 600;">Super Admin</span></td>
-                            <td><span class="status-badge status-active">Active</span></td>
-                            <td class="color-muted">Oct 01, 2025</td>
-                            <td>
-                                <button class="btn-sm btn-outline"><i data-lucide="edit-3" style="width: 14px;"></i></button>
-                                <button class="btn-sm btn-outline" style="color: var(--color-danger);"><i data-lucide="trash-2" style="width: 14px;"></i></button>
-                            </td>
-                        </tr>
-                        <!-- Add more mock users as needed -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination">
-                <span style="color: var(--color-text-muted); font-size: 0.875rem;">Showing 1-10 of 254 entries</span>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn btn-outline btn-sm">Previous</button>
-                    <button class="btn btn-primary btn-sm">1</button>
-                    <button class="btn btn-outline btn-sm">2</button>
-                    <button class="btn btn-outline btn-sm">Next</button>
+
+            <div class="data-card">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${users.map(user => `
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <div style="width:32px;height:32px;border-radius:50%;background:#e0e7ff;color:#4f46e5;display:flex;align-items:center;justify-content:center;font-weight:bold;">
+                                                ${user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                                            </div>
+                                            <span style="font-weight: 600;">${user.name || 'Unknown'}</span>
+                                        </div>
+                                    </td>
+                                    <td>${user.email}</td>
+                                    <td><span style="color: ${user.role === 'admin' ? 'var(--color-primary)' : 'inherit'}; font-weight: ${user.role === 'admin' ? '600' : '400'};">${user.role}</span></td>
+                                    <td><span class="status-badge status-${user.is_active == 1 ? 'active' : 'inactive'}">${user.is_active == 1 ? 'Active' : 'Inactive'}</span></td>
+                                    <td>
+                                        <button class="btn-sm btn-outline" onclick="alert('Edit functionality coming soon')"><i data-lucide="edit-3" style="width: 14px;"></i></button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                     ${users.length === 0 ? '<div style="padding:20px;text-align:center;">No users found.</div>' : ''}
                 </div>
             </div>
-        </div>
-    `;
-    lucide.createIcons();
+        `;
+        lucide.createIcons();
+
+    } catch (error) {
+        container.innerHTML = `<div class="error-state">Failed to load users: ${error.message}</div>`;
+    }
 }
 
 /**
- * Presets Management View
+ * Preset Management Loader
  */
-function renderPresetsView(container) {
-    container.innerHTML = `
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
-            <div>
-                <h1 class="page-title">Preset Control</h1>
-                <p class="page-subtitle">Manage your product catalog, upload WebP images, and control availability.</p>
-            </div>
-            <div style="display: flex; gap: 10px;">
-                <button class="btn btn-outline" onclick="bulkActivatePresets()"><i data-lucide="zap" style="width: 14px; display: inline; vertical-align: middle; margin-right: 4px;"></i> Bulk Activate</button>
-                <button class="btn btn-primary" onclick="showAddPresetModal()">
-                    <i data-lucide="plus" style="width: 14px; display: inline; vertical-align: middle; margin-right: 4px;"></i> Create New Preset
-                </button>
-            </div>
-        </div>
+async function loadPresets(container) {
+    try {
+        const response = await fetch(`${API_BASE}/presets`); // Public endpoint OK for list
+        const json = await response.json();
+        const presets = json.data || [];
 
-        <div class="filter-bar">
-            <div class="header-search" style="max-width: 300px; display: block;">
-                <i data-lucide="search" class="search-icon"></i>
-                <input type="text" class="form-control" placeholder="Search presets..." style="padding-left: 40px;">
+        container.innerHTML = `
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <h1 class="page-title">Preset Control</h1>
+                    <p class="page-subtitle">Manage your product catalog.</p>
+                </div>
+                <!-- Add preset button could go here -->
             </div>
-            <select class="form-control" style="width: 180px;">
-                <option>All Categories</option>
-                <option>Lightroom Mobile</option>
-                <option>Lightroom Desktop</option>
-                <option>Video LUTs</option>
-                <option>Photoshop Actions</option>
-            </select>
-            <select class="form-control" style="width: 150px;">
-                <option>All Status</option>
-                <option>Active</option>
-                <option>Inactive</option>
-            </select>
-            <div style="margin-left: auto; color: var(--color-text-muted); font-size: 0.875rem;">
-                Showing 12 of 86 presets
-            </div>
-        </div>
 
-        <div class="presets-grid">
-            ${generatePresetCards()}
-        </div>
-    `;
-    lucide.createIcons();
+            <div class="presets-grid">
+                ${presets.map(preset => `
+                    <div class="preset-card">
+                        <div class="preset-img-wrapper">
+                            <img src="${getPresetImage(preset)}" class="preset-img" alt="${preset.name}" onerror="this.src='../ci4-frontend/assets/placeholder-image.jpg'">
+                        </div>
+                        <div class="preset-content">
+                            <div class="preset-title">${preset.name}</div>
+                            <div style="color: var(--color-text-muted); font-size: 0.875rem; margin-bottom: 12px;">${preset.category || 'General'}</div>
+                            <div class="preset-price">₹${preset.price}</div>
+                            
+                            <div class="preset-actions">
+                                <button class="btn btn-outline btn-sm" style="flex: 1;" onclick="alert('Edit ID ${preset.id} coming soon')">
+                                    <i data-lucide="edit-3" style="width: 14px; margin-right: 4px;"></i> Edit
+                                </button>
+                                <button class="btn btn-outline btn-sm" style="color: var(--color-danger);" onclick="deletePreset(${preset.id})">
+                                    <i data-lucide="trash-2" style="width: 14px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+             ${presets.length === 0 ? '<div style="text-align:center;padding:40px;">No presets found. Create one via API or Seed.</div>' : ''}
+        `;
+        lucide.createIcons();
+
+    } catch (error) {
+        container.innerHTML = `<div class="error-state">Failed to load presets: ${error.message}</div>`;
+    }
 }
 
-function generatePresetCards() {
-    const mockPresets = [
-        { id: 1, name: 'Cinematic Kerala', category: 'Lightroom Mobile', price: 1299, status: 'Active', img: '../ci4-frontend/assets/teal&orangeKeralaPost01.jpg', updated: '2 hours ago' },
-        { id: 2, name: 'Vintage Retro LUTs', category: 'Video LUTs', price: 999, status: 'Active', img: '../ci4-frontend/assets/vintagePost.jpg', updated: '1 day ago' },
-        { id: 3, name: 'Moody Dark Forest', category: 'Lightroom Desktop', price: 1499, status: 'Inactive', img: '../ci4-frontend/assets/moodyPost.jpg', updated: '3 days ago' },
-        { id: 4, name: 'Summer Glow Pack', category: 'Lightroom Mobile', price: 799, status: 'Active', img: '../ci4-frontend/assets/summerPost.jpg', updated: '5 days ago' },
-        { id: 5, name: 'Urban Street Night', category: 'Lightroom Mobile', price: 1199, status: 'Active', img: '../ci4-frontend/assets/urbanPost.jpg', updated: '1 week ago' },
-        { id: 6, name: 'Portrait Essence', category: 'Photoshop Actions', price: 1599, status: 'Active', img: '../ci4-frontend/assets/portraitPost.jpg', updated: '2 weeks ago' }
-    ];
-
-    return mockPresets.map(preset => `
-        <div class="preset-card">
-            <div class="preset-img-wrapper">
-                <img src="${preset.img}" class="preset-img" alt="${preset.name}">
-                <span class="preset-badge status-${preset.status.toLowerCase()}">${preset.status}</span>
-            </div>
-            <div class="preset-content">
-                <div class="preset-title">${preset.name}</div>
-                <div style="color: var(--color-text-muted); font-size: 0.875rem; margin-bottom: 12px;">${preset.category}</div>
-                <div class="preset-price">₹${preset.price.toLocaleString()}</div>
-                
-                <div class="preset-actions">
-                    <button class="btn btn-outline btn-sm" style="flex: 1;" onclick="showEditPresetModal(${preset.id})">
-                        <i data-lucide="edit-3" style="width: 14px; margin-right: 4px;"></i> Edit
-                    </button>
-                    <button class="btn btn-outline btn-sm" style="color: var(--color-danger);" onclick="deletePreset(${preset.id})">
-                        <i data-lucide="trash-2" style="width: 14px;"></i>
-                    </button>
-                </div>
-                
-                <div class="preset-meta">
-                    <span><i data-lucide="clock" style="width: 12px; display: inline; margin-right: 4px;"></i> ${preset.updated}</span>
-                    <label class="switch" style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                        <input type="checkbox" ${preset.status === 'Active' ? 'checked' : ''} style="width: 16px; height: 16px;">
-                        <span style="font-size: 0.75rem;">Active</span>
-                    </label>
-                </div>
-            </div>
-        </div>
-    `).join('');
+// Helper for preset image
+function getPresetImage(preset) {
+    if (preset.images && preset.images.length > 0) {
+        // Check if it's a full URL or relative
+        const path = preset.images[0].path || preset.images[0].url;
+        if (path.startsWith('http')) return path;
+        return `http://localhost/pixelFable-main/ci4-backend/public/${path}`;
+    }
+    if (preset.drive_link && (preset.drive_link.endsWith('.jpg') || preset.drive_link.endsWith('.png'))) {
+        return preset.drive_link;
+    }
+    return '../ci4-frontend/assets/placeholder-image.jpg';
 }
 
 /**
- * Orders Management View
+ * Order Management Loader
  */
-function renderOrdersView(container) {
-    container.innerHTML = `
-        <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
-            <div>
-                <h1 class="page-title">Order Management</h1>
-                <p class="page-subtitle">Monitor customer purchases, track payments, and manage fulfillment.</p>
-            </div>
-            <button class="btn btn-outline" onclick="exportOrders()"><i data-lucide="download" style="width: 14px; margin-right: 4px;"></i> Export Data</button>
-        </div>
+async function loadOrders(container) {
+    try {
+        const response = await fetchWithAuth(`${API_BASE}/admin/orders`);
+        const json = await response.json();
+        const orders = json.data || [];
 
-        <div class="filter-bar">
-            <div class="header-search" style="max-width: 250px; display: block;">
-                <i data-lucide="search" class="search-icon"></i>
-                <input type="text" class="form-control" placeholder="Search Order ID or Name..." style="padding-left: 40px;">
-            </div>
-            <div class="filter-group">
-                <span class="form-label" style="margin-bottom: 0;">Date:</span>
-                <input type="date" class="form-control" style="width: 160px;">
-            </div>
-            <div class="filter-group">
-                <span class="form-label" style="margin-bottom: 0;">Status:</span>
-                <select class="form-control" style="width: 140px;">
-                    <option>All Status</option>
-                    <option>Completed</option>
-                    <option>Processing</option>
-                    <option>Pending</option>
-                    <option>Cancelled</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <span class="form-label" style="margin-bottom: 0;">Payment:</span>
-                <select class="form-control" style="width: 140px;">
-                    <option>All Methods</option>
-                    <option>Razorpay</option>
-                    <option>Stripe</option>
-                    <option>PayPal</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="data-card">
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Module/Item</th>
-                            <th>Order Date</th>
-                            <th>Amount</th>
-                            <th>Payment</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="orders-table-body">
-                        ${generateOrderRows()}
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination">
-                <span style="color: var(--color-text-muted); font-size: 0.875rem;">Showing 1-8 of 1,240 orders</span>
-                <div style="display: flex; gap: 8px;">
-                    <button class="btn btn-outline btn-sm">Previous</button>
-                    <button class="btn btn-primary btn-sm">1</button>
-                    <button class="btn btn-outline btn-sm">2</button>
-                    <button class="btn btn-outline btn-sm">Next</button>
+        container.innerHTML = `
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <h1 class="page-title">Order Management</h1>
+                    <p class="page-subtitle">Monitor customer purchases.</p>
                 </div>
             </div>
-        </div>
-    `;
-    lucide.createIcons();
-}
 
-function generateOrderRows() {
-    const mockOrders = [
-        { id: '#PF-9021', name: 'Aryan Sharma', email: 'aryan@example.com', item: 'Cinematic Kerala Pack', date: 'Oct 24, 2025', amount: 1299, method: 'Razorpay', status: 'Completed' },
-        { id: '#PF-9022', name: 'Priya Verma', email: 'priya@gmail.com', item: 'Vintage Retro LUTs', date: 'Oct 24, 2025', amount: 999, method: 'Razorpay', status: 'Pending' },
-        { id: '#PF-9023', name: 'Kabir Singh', email: 'kabir.s@outlook.com', item: 'Dark Moody Mobile', date: 'Oct 23, 2025', amount: 499, method: 'UPI', status: 'Processing' },
-        { id: '#PF-9024', name: 'Ananya Rao', email: 'ananya.rao@comp.in', item: 'Nature Landscape Pack', date: 'Oct 23, 2025', amount: 1499, method: 'Razorpay', status: 'Cancelled' },
-        { id: '#PF-9025', name: 'Rahul Malhotra', email: 'rahul.m@yahoo.com', item: 'Urban Coffee Pack', date: 'Oct 22, 2025', amount: 899, method: 'Stripe', status: 'Completed' }
-    ];
-
-    return mockOrders.map(order => `
-        <tr>
-            <td style="font-family: monospace; font-weight: 600; color: var(--color-primary);">${order.id}</td>
-            <td>
-                <div style="font-weight: 600;">${order.name}</div>
-                <div style="font-size: 0.75rem; color: var(--color-text-muted);">${order.email}</div>
-            </td>
-            <td>${order.item}</td>
-            <td style="color: var(--color-text-muted);">${order.date}</td>
-            <td style="font-weight: 700;">₹${order.amount.toLocaleString()}</td>
-            <td><span style="font-size: 0.8125rem;">${order.method}</span></td>
-            <td><span class="status-badge status-${order.status.toLowerCase()}">${order.status}</span></td>
-            <td>
-                <div style="display: flex; gap: 6px;">
-                    <button class="btn-sm btn-outline" title="View Details" onclick="showOrderDetailsModal('${order.id}')">
-                        <i data-lucide="eye" style="width: 14px;"></i>
-                    </button>
-                    <button class="btn-sm btn-outline" title="Update Status" onclick="showStatusUpdateModal('${order.id}')">
-                        <i data-lucide="refresh-cw" style="width: 14px;"></i>
-                    </button>
+            <div class="data-card">
+                <div class="table-responsive">
+                    <table>
+                         <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             ${orders.map(order => `
+                                <tr>
+                                    <td style="font-family: monospace; font-weight: 600;">${order.razorpay_order_id || 'N/A'}</td>
+                                    <td>
+                                        <div>${order.customer_name || 'Guest'}</div>
+                                        <div style="font-size:0.75rem;color:#6b7280;">${order.customer_email}</div>
+                                    </td>
+                                    <td>${order.preset_name || 'Unknown Item'}</td>
+                                    <td style="font-weight: 700;">₹${order.price_paid}</td>
+                                    <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                                    <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                                </tr>
+                             `).join('')}
+                        </tbody>
+                    </table>
+                    ${orders.length === 0 ? '<div style="padding:20px;text-align:center;">No orders found.</div>' : ''}
                 </div>
-            </td>
-        </tr>
-    `).join('');
+            </div>
+        `;
+        lucide.createIcons();
+
+    } catch (error) {
+        container.innerHTML = `<div class="error-state">Failed to load orders: ${error.message}</div>`;
+    }
 }
+
+/**
+ * API Helper
+ */
+async function fetchWithAuth(url, options = {}) {
+    const token = localStorage.getItem('pf_token');
+    const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        ...options.headers
+    };
+
+    // Allow token to be sent in Authorization header (Need backend to support Bearer or custom header)
+    // CI4 Filter often checks header.
+
+    const response = await fetch(url, { ...options, headers });
+    if (response.status === 401 || response.status === 403) {
+        // Token expired or invalid
+        alert('Session expired. Please login again.');
+        localStorage.removeItem('pf_token');
+        window.location.href = '../ci4-frontend/login.html';
+        throw new Error('Unauthorized');
+    }
+    return response;
+}
+
 
 /**
  * Payments & Transaction Logs

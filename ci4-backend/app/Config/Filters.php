@@ -111,6 +111,7 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [
-        'csrf' => ['before' => ['api/*', 'admin/*']],
+        // CSRF disabled for API routes - using JWT authentication instead
+        // CSRF is only for traditional form submissions, not JSON APIs
     ];
 }

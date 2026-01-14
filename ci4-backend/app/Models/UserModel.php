@@ -32,7 +32,7 @@ class UserModel extends Model
         'name'     => 'required|min_length[2]|max_length[100]',
         'email'    => 'required|valid_email|is_unique[users.email,id,{id}]',
         'password' => 'required|min_length[8]|regex_match[/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/]',
-        'role'     => 'permit_empty|in_list[user,admin]',
+        'role'     => 'permit_empty|in_list[user,admin,customer]',
     ];
     protected $validationMessages   = [
         'email' => [

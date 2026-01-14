@@ -41,13 +41,13 @@ class AuthController extends ResourceController
 
         if (!$userModel->insert($data)) {
             $errors = $userModel->errors();
-            if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+            if ($this->isJSONRequest()) {
                 return $this->failValidationErrors($errors);
             }
             return redirect()->back()->withInput()->with('errors', $errors);
         }
 
-        if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+        if ($this->isJSONRequest()) {
             return $this->respondCreated([
                 'status'  => 201,
                 'message' => 'User registered successfully',
@@ -66,7 +66,7 @@ class AuthController extends ResourceController
         ];
 
         if (!$this->validate($rules)) {
-            if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+            if ($this->isJSONRequest()) {
                 return $this->failValidationErrors($this->validator->getErrors());
             }
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
@@ -75,7 +75,7 @@ class AuthController extends ResourceController
         $userModel = new UserModel();
         
         // Try to get JSON first, fallback to standard post/get data
-        $json = $this->request->getJSON(true);
+        $json = $this->request->getJSON(true) ?: [];
         $email    = $json['email'] ?? $this->request->getVar('email');
         $password = $json['password'] ?? $this->request->getVar('password');
 
@@ -88,7 +88,7 @@ class AuthController extends ResourceController
         if (!$user || !password_verify($password, $user['password'])) {
             log_message('warning', 'Failed login attempt for email: {email}', ['email' => $email]);
             $error = 'Invalid login credentials';
-            if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+            if ($this->isJSONRequest()) {
                 return $this->failUnauthorized($error);
             }
             return redirect()->back()->withInput()->with('error', $error);
@@ -97,7 +97,7 @@ class AuthController extends ResourceController
         if ($user['is_active'] == 0) {
             log_message('warning', 'Login attempt for deactivated account: {email}', ['email' => $email]);
             $error = 'Your account is deactivated. Please contact support.';
-            if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+            if ($this->isJSONRequest()) {
                 return $this->failForbidden($error);
             }
             return redirect()->back()->withInput()->with('error', $error);
@@ -117,19 +117,25 @@ class AuthController extends ResourceController
         $session->set($sessionData);
 
         // --- JWT BASED AUTH (Optional/Keep for compatibility) ---
-        $key = getenv('JWT_SECRET');
-        $payload = [
-            'iat'    => time(),
-            'iss'    => base_url(),
-            'exp'    => time() + (60 * 60 * 24 * 7), // 7 days
-            'userId' => $user['id'],
-            'role'   => $user['role'],
-            'email'  => $user['email']
-        ];
+        $token = null;
+        try {
+            $key = getenv('JWT_SECRET') ?: 'pixel_fable_secret_key_change_me_123';
+            $payload = [
+                'iat'    => time(),
+                'iss'    => base_url(),
+                'exp'    => time() + (60 * 60 * 24 * 7), // 7 days
+                'userId' => $user['id'],
+                'role'   => $user['role'],
+                'email'  => $user['email']
+            ];
 
-        $token = JWT::encode($payload, $key, 'HS256');
+            $token = JWT::encode($payload, $key, 'HS256');
+        } catch (Exception $e) {
+            log_message('error', 'JWT Encoding Error: ' . $e->getMessage());
+            // We can continue with session auth even if JWT fails for now
+        }
 
-        if ($this->request->isAJAX() || str_contains($this->request->getHeaderLine('Accept'), 'application/json')) {
+        if ($this->isJSONRequest()) {
             return $this->respond([
                 'status'  => 200,
                 'message' => 'Login successful',
@@ -157,5 +163,15 @@ class AuthController extends ResourceController
             'message' => 'User profile retrieved',
             'user'    => session()->get()
         ]);
+    }
+
+    /**
+     * Helper to detect if request expects or provides JSON
+     */
+    private function isJSONRequest()
+    {
+        return $this->request->isAJAX() || 
+               str_contains($this->request->getHeaderLine('Accept'), 'application/json') ||
+               str_contains($this->request->getHeaderLine('Content-Type'), 'application/json');
     }
 }
